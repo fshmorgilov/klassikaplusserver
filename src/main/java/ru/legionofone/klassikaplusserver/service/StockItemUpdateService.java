@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StockItemUpdateService {
 
-    private static final Logger logger = LoggerFactory.getLogger(StockItemService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CatalogService.class);
 
     @Scheduled(fixedRate = 5000)
     public void updateStockItem(){

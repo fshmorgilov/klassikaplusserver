@@ -1,13 +1,13 @@
 package ru.legionofone.klassikaplusserver.service;
 
-import ru.legionofone.klassikaplusserver.model.domain.StockItem;
+import ru.legionofone.klassikaplusserver.model.domain.CatalogItem;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface StockItemService {
+public interface CatalogService {
 
-    Optional<List<StockItem>> getNewItems();
+    Optional<List<CatalogItem>> getNewItems();
 
-    Optional<List<StockItem>> getAllItems();
+    Optional<List<CatalogItem>> getAllItems();
 }
