@@ -2,13 +2,13 @@ package ru.legionofone.klassikaplusserver.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.legionofone.klassikaplusserver.model.domain.CatalogItem;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 public class CatalogServiceImpl implements CatalogService {
 
     private static final Logger logger = LoggerFactory.getLogger(CatalogServiceImpl.class);

@@ -1,9 +1,10 @@
 package ru.legionofone.klassikaplusserver.model.persistance.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity(name = "item")
-public class DbItem {
+public class DbItem implements Serializable {
 //todo getter setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
