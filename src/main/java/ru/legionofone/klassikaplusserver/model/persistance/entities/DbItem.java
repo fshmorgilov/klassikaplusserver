@@ -8,7 +8,7 @@ public class DbItem implements Serializable {
 //todo getter setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
     @Column(name = "name")
     private String name; //h1
     @Column(name = "title")
@@ -64,7 +64,4 @@ public class DbItem implements Serializable {
     private double discount;
     @Column(name = "price")
     private double price;
-    public int getId() {
-        return id;
-    }
 }
