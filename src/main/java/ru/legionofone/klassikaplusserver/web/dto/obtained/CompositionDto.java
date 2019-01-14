@@ -1,9 +1,7 @@
-package ru.legionofone.klassikaplusserver.web.obtained;
+package ru.legionofone.klassikaplusserver.web.dto.obtained;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -15,24 +13,37 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "data"
+        "MIGX_id",
+        "title"
 })
-public class DataDto implements Serializable {
+public class CompositionDto implements Serializable {
 
-    @JsonProperty("data")
-    private List<CategoryDto> data = new ArrayList<CategoryDto>();
+    @JsonProperty("MIGX_id")
+    private String mIGXId;
+    @JsonProperty("title")
+    private String title;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 2557721166194538629L;
+    private final static long serialVersionUID = 6609213234704803401L;
 
-    @JsonProperty("data")
-    public List<CategoryDto> getData() {
-        return data;
+    @JsonProperty("MIGX_id")
+    public String getMIGXId() {
+        return mIGXId;
     }
 
-    @JsonProperty("data")
-    public void setData(List<CategoryDto> data) {
-        this.data = data;
+    @JsonProperty("MIGX_id")
+    public void setMIGXId(String mIGXId) {
+        this.mIGXId = mIGXId;
+    }
+
+    @JsonProperty("title")
+    public String getTitle() {
+        return title;
+    }
+
+    @JsonProperty("title")
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @JsonAnyGetter
@@ -44,4 +55,5 @@ public class DataDto implements Serializable {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
 }

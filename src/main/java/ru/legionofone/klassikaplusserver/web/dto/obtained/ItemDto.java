@@ -1,51 +1,14 @@
-package ru.legionofone.klassikaplusserver.web.obtained;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package ru.legionofone.klassikaplusserver.web.dto.obtained;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "id",
-        "menutitle",
-        "pagetitle",
-        "parent",
-        "longtitle",
-        "uri",
-        "alias",
-        "menuindex",
-        "introtext",
-        "description",
-        "published",
-        "template",
-        "price",
-        "discount",
-        "old_price",
-        "country",
-        "sostav",
-        "size",
-        "brand",
-        "number",
-        "style",
-        "articul",
-        "view_main",
-        "new",
-        "with_goods",
-        "img_mini",
-        "image",
-        "photogallery",
-        "child_pages"
-})
-public class CategoryDto implements Serializable {
+import java.util.HashMap;
+import java.util.Map;
+
+public class ItemDto {
 
     @JsonProperty("id")
     private String id;
@@ -72,7 +35,7 @@ public class CategoryDto implements Serializable {
     @JsonProperty("template")
     private String template;
     @JsonProperty("price")
-    private Object price;
+    private String price;
     @JsonProperty("discount")
     private Object discount;
     @JsonProperty("old_price")
@@ -80,21 +43,21 @@ public class CategoryDto implements Serializable {
     @JsonProperty("country")
     private String country;
     @JsonProperty("sostav")
-    private Object sostav;
+    private CompositionDto composition;
     @JsonProperty("size")
-    private Object size;
+    private SizeDto size;
     @JsonProperty("brand")
     private String brand;
     @JsonProperty("number")
-    private Object number;
+    private String number;
     @JsonProperty("style")
-    private Object style;
+    private StyleDto style;
     @JsonProperty("articul")
-    private Object articul;
+    private String articul;
     @JsonProperty("view_main")
-    private Object viewMain;
+    private String viewMain;
     @JsonProperty("new")
-    private Object _new;
+    private String _new;
     @JsonProperty("with_goods")
     private Object withGoods;
     @JsonProperty("img_mini")
@@ -102,12 +65,12 @@ public class CategoryDto implements Serializable {
     @JsonProperty("image")
     private String image;
     @JsonProperty("photogallery")
-    private Object photogallery;
+    private PhotogalleryDto photogallery;
     @JsonProperty("child_pages")
-    private List<ItemDto> childPages = new ArrayList<>();
+    private String childPages;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 3062157434456738262L;
+    private final static long serialVersionUID = -5756738634783614208L;
 
     @JsonProperty("id")
     public String getId() {
@@ -230,12 +193,12 @@ public class CategoryDto implements Serializable {
     }
 
     @JsonProperty("price")
-    public Object getPrice() {
+    public String getPrice() {
         return price;
     }
 
     @JsonProperty("price")
-    public void setPrice(Object price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -270,22 +233,22 @@ public class CategoryDto implements Serializable {
     }
 
     @JsonProperty("sostav")
-    public Object getSostav() {
-        return sostav;
+    public CompositionDto getComposition() {
+        return composition;
     }
 
     @JsonProperty("sostav")
-    public void setSostav(Object sostav) {
-        this.sostav = sostav;
+    public void setComposition(CompositionDto composition) {
+        this.composition = composition;
     }
 
     @JsonProperty("size")
-    public Object getSize() {
+    public SizeDto getSize() {
         return size;
     }
 
     @JsonProperty("size")
-    public void setSize(Object size) {
+    public void setSize(SizeDto size) {
         this.size = size;
     }
 
@@ -300,52 +263,52 @@ public class CategoryDto implements Serializable {
     }
 
     @JsonProperty("number")
-    public Object getNumber() {
+    public String getNumber() {
         return number;
     }
 
     @JsonProperty("number")
-    public void setNumber(Object number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
     @JsonProperty("style")
-    public Object getStyle() {
+    public StyleDto getStyle() {
         return style;
     }
 
     @JsonProperty("style")
-    public void setStyle(Object style) {
+    public void setStyle(StyleDto style) {
         this.style = style;
     }
 
     @JsonProperty("articul")
-    public Object getArticul() {
+    public String getArticul() {
         return articul;
     }
 
     @JsonProperty("articul")
-    public void setArticul(Object articul) {
+    public void setArticul(String articul) {
         this.articul = articul;
     }
 
     @JsonProperty("view_main")
-    public Object getViewMain() {
+    public String getViewMain() {
         return viewMain;
     }
 
     @JsonProperty("view_main")
-    public void setViewMain(Object viewMain) {
+    public void setViewMain(String viewMain) {
         this.viewMain = viewMain;
     }
 
     @JsonProperty("new")
-    public Object getNew() {
+    public String getNew() {
         return _new;
     }
 
     @JsonProperty("new")
-    public void setNew(Object _new) {
+    public void setNew(String _new) {
         this._new = _new;
     }
 
@@ -380,22 +343,22 @@ public class CategoryDto implements Serializable {
     }
 
     @JsonProperty("photogallery")
-    public Object getPhotogallery() {
+    public PhotogalleryDto getPhotogallery() {
         return photogallery;
     }
 
     @JsonProperty("photogallery")
-    public void setPhotogallery(Object photogallery) {
+    public void setPhotogallery(PhotogalleryDto photogallery) {
         this.photogallery = photogallery;
     }
 
     @JsonProperty("child_pages")
-    public List<ItemDto> getChildPages() {
+    public String getChildPages() {
         return childPages;
     }
 
     @JsonProperty("child_pages")
-    public void setChildPages(List<ItemDto> childPages) {
+    public void setChildPages(String childPages) {
         this.childPages = childPages;
     }
 
@@ -408,6 +371,4 @@ public class CategoryDto implements Serializable {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }
-

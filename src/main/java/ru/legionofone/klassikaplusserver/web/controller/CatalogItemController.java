@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.legionofone.klassikaplusserver.service.CatalogService;
 
 @RestController
-@RequestMapping("stock")
+@RequestMapping("catalog")
 public class CatalogItemController {
 
     final CatalogService catalogService;

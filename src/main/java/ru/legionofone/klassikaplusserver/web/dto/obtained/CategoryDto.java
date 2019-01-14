@@ -1,14 +1,51 @@
-package ru.legionofone.klassikaplusserver.web.obtained;
+package ru.legionofone.klassikaplusserver.web.dto.obtained;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class ItemDto {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "id",
+        "menutitle",
+        "pagetitle",
+        "parent",
+        "longtitle",
+        "uri",
+        "alias",
+        "menuindex",
+        "introtext",
+        "description",
+        "published",
+        "template",
+        "price",
+        "discount",
+        "old_price",
+        "country",
+        "sostav",
+        "size",
+        "brand",
+        "number",
+        "style",
+        "articul",
+        "view_main",
+        "new",
+        "with_goods",
+        "img_mini",
+        "image",
+        "photogallery",
+        "child_pages"
+})
+public class CategoryDto implements Serializable {
 
     @JsonProperty("id")
     private String id;
@@ -35,7 +72,7 @@ public class ItemDto {
     @JsonProperty("template")
     private String template;
     @JsonProperty("price")
-    private String price;
+    private Object price;
     @JsonProperty("discount")
     private Object discount;
     @JsonProperty("old_price")
@@ -43,21 +80,21 @@ public class ItemDto {
     @JsonProperty("country")
     private String country;
     @JsonProperty("sostav")
-    private CompositionDto composition;
+    private Object sostav;
     @JsonProperty("size")
-    private SizeDto size;
+    private Object size;
     @JsonProperty("brand")
     private String brand;
     @JsonProperty("number")
-    private String number;
+    private Object number;
     @JsonProperty("style")
-    private StyleDto style;
+    private Object style;
     @JsonProperty("articul")
-    private String articul;
+    private Object articul;
     @JsonProperty("view_main")
-    private String viewMain;
+    private Object viewMain;
     @JsonProperty("new")
-    private String _new;
+    private Object _new;
     @JsonProperty("with_goods")
     private Object withGoods;
     @JsonProperty("img_mini")
@@ -65,12 +102,12 @@ public class ItemDto {
     @JsonProperty("image")
     private String image;
     @JsonProperty("photogallery")
-    private PhotogalleryDto photogallery;
+    private Object photogallery;
     @JsonProperty("child_pages")
-    private String childPages;
+    private List<ItemDto> childPages = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = -5756738634783614208L;
+    private final static long serialVersionUID = 3062157434456738262L;
 
     @JsonProperty("id")
     public String getId() {
@@ -193,12 +230,12 @@ public class ItemDto {
     }
 
     @JsonProperty("price")
-    public String getPrice() {
+    public Object getPrice() {
         return price;
     }
 
     @JsonProperty("price")
-    public void setPrice(String price) {
+    public void setPrice(Object price) {
         this.price = price;
     }
 
@@ -233,22 +270,22 @@ public class ItemDto {
     }
 
     @JsonProperty("sostav")
-    public CompositionDto getComposition() {
-        return composition;
+    public Object getSostav() {
+        return sostav;
     }
 
     @JsonProperty("sostav")
-    public void setComposition(CompositionDto composition) {
-        this.composition = composition;
+    public void setSostav(Object sostav) {
+        this.sostav = sostav;
     }
 
     @JsonProperty("size")
-    public SizeDto getSize() {
+    public Object getSize() {
         return size;
     }
 
     @JsonProperty("size")
-    public void setSize(SizeDto size) {
+    public void setSize(Object size) {
         this.size = size;
     }
 
@@ -263,52 +300,52 @@ public class ItemDto {
     }
 
     @JsonProperty("number")
-    public String getNumber() {
+    public Object getNumber() {
         return number;
     }
 
     @JsonProperty("number")
-    public void setNumber(String number) {
+    public void setNumber(Object number) {
         this.number = number;
     }
 
     @JsonProperty("style")
-    public StyleDto getStyle() {
+    public Object getStyle() {
         return style;
     }
 
     @JsonProperty("style")
-    public void setStyle(StyleDto style) {
+    public void setStyle(Object style) {
         this.style = style;
     }
 
     @JsonProperty("articul")
-    public String getArticul() {
+    public Object getArticul() {
         return articul;
     }
 
     @JsonProperty("articul")
-    public void setArticul(String articul) {
+    public void setArticul(Object articul) {
         this.articul = articul;
     }
 
     @JsonProperty("view_main")
-    public String getViewMain() {
+    public Object getViewMain() {
         return viewMain;
     }
 
     @JsonProperty("view_main")
-    public void setViewMain(String viewMain) {
+    public void setViewMain(Object viewMain) {
         this.viewMain = viewMain;
     }
 
     @JsonProperty("new")
-    public String getNew() {
+    public Object getNew() {
         return _new;
     }
 
     @JsonProperty("new")
-    public void setNew(String _new) {
+    public void setNew(Object _new) {
         this._new = _new;
     }
 
@@ -343,22 +380,22 @@ public class ItemDto {
     }
 
     @JsonProperty("photogallery")
-    public PhotogalleryDto getPhotogallery() {
+    public Object getPhotogallery() {
         return photogallery;
     }
 
     @JsonProperty("photogallery")
-    public void setPhotogallery(PhotogalleryDto photogallery) {
+    public void setPhotogallery(Object photogallery) {
         this.photogallery = photogallery;
     }
 
     @JsonProperty("child_pages")
-    public String getChildPages() {
+    public List<ItemDto> getChildPages() {
         return childPages;
     }
 
     @JsonProperty("child_pages")
-    public void setChildPages(String childPages) {
+    public void setChildPages(List<ItemDto> childPages) {
         this.childPages = childPages;
     }
 
@@ -371,4 +408,6 @@ public class ItemDto {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
 }
+

@@ -1,4 +1,4 @@
-package ru.legionofone.klassikaplusserver.model.repository;
+package ru.legionofone.klassikaplusserver.model.persistance;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;

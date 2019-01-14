@@ -1,4 +1,4 @@
-package ru.legionofone.klassikaplusserver.web.obtained;
+package ru.legionofone.klassikaplusserver.web.dto.obtained;
 
 import java.io.Serializable;
 import java.util.HashMap;
