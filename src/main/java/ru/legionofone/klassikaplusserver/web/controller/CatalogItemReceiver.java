@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class CatalogItemReceiver {
@@ -25,8 +26,8 @@ public class CatalogItemReceiver {
     private final OkHttpClient client = new OkHttpClient();// FIXME: 1/14/2019 bean
     private final ObjectMapper mapper = new ObjectMapper();
 
-    @Nullable
-    public List<CategoryDto> provide() {
+    // TODO: 1/14/2019 REFACTOR TO OPTIONAL
+    public Optional<List<CategoryDto>> provide() {
         Request request = new Request.Builder()
                 .url(URL)
                 .build();
@@ -34,20 +35,15 @@ public class CatalogItemReceiver {
             Response response = client.newCall(request)
                     .execute();
             if (response.isSuccessful())
-                if (response.body() != null)
-                    return mapper.readValue(response.body().string(), DataDto.class).getData();
-                else {
-                    logger.warn("response body is null");
-                    return null;
-                }
+                return Optional.ofNullable(mapper.readValue(response.body().string(), DataDto.class).getData());
             else {
                 logger.warn("request failed");
-                return null;
+                return Optional.empty();
             }
 
         } catch (IOException e) {
             logger.warn("Failed to make request to site:\n" + e.getMessage());
-            return null;
+            return Optional.empty();
         }
     }
 

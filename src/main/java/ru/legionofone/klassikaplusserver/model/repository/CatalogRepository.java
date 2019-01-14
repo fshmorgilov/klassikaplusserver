@@ -28,11 +28,17 @@ public class CatalogRepository {
     }
 
     public void updateCatalogItems() {
-        receiver.provide().forEach(categoryDto -> {
-            categoryDto.getChildPages().stream()
-                    .map(dtoToDaoMapper::map)
-                    .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
-                    .forEach(genericHibernateProvider::update);
-        });
+        // TODO: 1/14/2019 Сделать асинхронно
+        receiver.provide()
+                .ifPresentOrElse(
+                        categoryDtos -> categoryDtos.forEach(categoryDto -> categoryDto
+                                .getChildPages()
+                                .stream()
+                                // TODO: 1/14/2019 Дроп базы
+                                .map(dtoToDaoMapper::map)
+                                .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
+                                // TODO: 1/14/2019 Переделать в одну транзакцию 
+                                .forEach(genericHibernateProvider::update)),
+                        () -> logger.warn("Failed to obtain new dataset"));
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.legionofone.klassikaplusserver.model.repository.CatalogRepository;
+import ru.legionofone.klassikaplusserver.model.exceptions.RequestFailedException;
 import ru.legionofone.klassikaplusserver.web.controller.CatalogItemReceiver;
 
 @Service
@@ -25,8 +26,8 @@ public class StockItemUpdateService {
     @Scheduled(fixedRate = 5000)
     public void updateCatalogItem() {
         logger.info("Beginning routine procedure updating items");
-        repository.updateCatalogItems();
-        logger.info("Finished updating items");
-        //TODO Запрос на сторону сайта
+            repository.updateCatalogItems();
+            logger.info("Finished updating items");
+        // TODO: 1/14/2019 Make concurrent
     }
 }
