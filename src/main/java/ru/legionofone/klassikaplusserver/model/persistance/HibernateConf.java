@@ -19,8 +19,7 @@ public class HibernateConf {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(
-                new String[]{"com.baeldung.hibernate.bootstrap.model"});
+        sessionFactory.setPackagesToScan( new String[]{"com.baeldung.hibernate.bootstrap.model"});
         sessionFactory.setHibernateProperties(hibernateProperties());
 
         return sessionFactory;
@@ -51,10 +50,8 @@ public class HibernateConf {
 
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty(
-                "hibernate.hbm2ddl.auto", "create-drop");
-        hibernateProperties.setProperty(
-                "hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        hibernateProperties.setProperty( "hibernate.hbm2ddl.auto", "create-drop");
+        hibernateProperties.setProperty( "hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 
         return hibernateProperties;
     }
