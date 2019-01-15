@@ -11,6 +11,9 @@ import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
 import ru.legionofone.klassikaplusserver.web.controller.CatalogItemReceiver;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.ItemDto;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+
 @Component
 public class CatalogRepository {
 
@@ -28,17 +31,18 @@ public class CatalogRepository {
     }
 
     public void updateCatalogItems() {
-        // TODO: 1/14/2019 Сделать асинхронно
-        receiver.provide()
-                .ifPresentOrElse(
-                        categoryDtos -> categoryDtos.forEach(categoryDto -> categoryDto
-                                .getChildPages()
-                                .stream()
-                                // TODO: 1/14/2019 Дроп базы
-                                .map(dtoToDaoMapper::map)
-                                .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
-                                // TODO: 1/14/2019 Переделать в одну транзакцию 
-                                .forEach(genericHibernateProvider::update)),
-                        () -> logger.warn("Failed to obtain new dataset"));
+        CompletableFuture.runAsync(() ->
+                receiver.provide()
+                        .ifPresentOrElse(
+                                categoryDtos -> categoryDtos.forEach(categoryDto -> categoryDto
+                                        .getChildPages()
+                                        .stream()
+                                        // TODO: 1/14/2019 Дроп базы
+                                        .map(dtoToDaoMapper::map)
+                                        .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
+                                        // TODO: 1/14/2019 Переделать в одну транзакцию
+                                        .forEach(genericHibernateProvider::update)),
+                                () -> logger.warn("Failed to obtain new dataset")),
+                Executors.newSingleThreadExecutor());
     }
 }
