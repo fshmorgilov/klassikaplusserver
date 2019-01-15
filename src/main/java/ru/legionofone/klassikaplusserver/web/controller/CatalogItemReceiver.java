@@ -22,6 +22,7 @@ public class CatalogItemReceiver {
 
     private static final Logger logger = LoggerFactory.getLogger(CatalogItemReceiver.class);
     private String URL = "https://klassikaplus.ru/loadsget/?parent=3&pub=1&ping=" + provideCurrentDate();
+    private String URL_MOCK = "https://8419c0f2-6cb4-43ae-98fe-3f1952f6300d.mock.pstmn.io";
 
     private final OkHttpClient client = new OkHttpClient();// FIXME: 1/14/2019 bean
     private final ObjectMapper mapper = new ObjectMapper();
@@ -29,7 +30,7 @@ public class CatalogItemReceiver {
     // TODO: 1/14/2019 REFACTOR TO OPTIONAL
     public Optional<List<CategoryDto>> provide() {
         Request request = new Request.Builder()
-                .url(URL)
+                .url(URL_MOCK)
                 .build();
         try {
             Response response = client.newCall(request)
