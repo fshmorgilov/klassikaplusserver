@@ -37,10 +37,12 @@ public class CatalogItemReceiver {
                 .build();
         logger.info("Making request: " + request.toString() + "\n and headers : \n" + request.headers().toString());
         try {
-            Response response = client.newCall(request) .execute();
-            if (response.isSuccessful())
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                logger.warn("Response: " + response.message() + "\nheaders " + response.headers().toString());
+                logger.debug("Response :" + response.body().string());
                 return Optional.ofNullable(mapper.readValue(response.body().string(), DataDto.class).getData());
-            else {
+            } else {
                 logger.warn("request failed");
                 logger.warn(" reason: " + response.message() + "\nheaders " + response.headers().toString());
                 return Optional.empty();

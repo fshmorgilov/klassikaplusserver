@@ -40,16 +40,20 @@ public class CatalogRepository {
         CompletableFuture.runAsync(() ->
                 receiver.provide()
                         .ifPresentOrElse(
-                                categoryDtos -> categoryDtos.forEach(categoryDto -> categoryDto
-                                        .getChildPages()
-                                        .stream()
-                                        // TODO: 1/14/2019 Дроп базы
-                                        .map(dtoToDaoMapper::map)
-                                        .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
-                                        // TODO: 1/14/2019 Переделать в одну транзакцию
-                                        .forEach(genericHibernateProvider::update)),
+                                categoryDtos -> {
+                                    categoryDtos.forEach(categoryDto -> categoryDto
+                                            .getChildPages()
+                                            .stream()
+                                            // TODO: 1/14/2019 Дроп базы
+                                            .map(dtoToDaoMapper::map)
+                                            .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
+                                            // TODO: 1/14/2019 Переделать в одну транзакцию
+                                            .forEach(genericHibernateProvider::update));
+                                    logger.info("Successfully obtained dataset");
+                                },
                                 () -> logger.warn("Failed to obtain new dataset"))
         );
+
     }
 
     public List<CatalogItem> provideCatalogNovelties() {
