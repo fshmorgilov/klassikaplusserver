@@ -42,6 +42,7 @@ public class CatalogItemReceiver {
                 return Optional.ofNullable(mapper.readValue(response.body().string(), DataDto.class).getData());
             else {
                 logger.warn("request failed");
+                logger.warn(" reason: " + response.message() + "\nheaders " + response.headers().toString());
                 return Optional.empty();
             }
         } catch (IOException e) {
