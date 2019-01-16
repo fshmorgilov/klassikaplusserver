@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.legionofone.klassikaplusserver.model.domain.CatalogItem;
+import ru.legionofone.klassikaplusserver.model.mappers.DaoToDomainMapper;
 import ru.legionofone.klassikaplusserver.model.mappers.ForeignDtoToDaoMapper;
 import ru.legionofone.klassikaplusserver.model.mappers.base.ListMapping;
 import ru.legionofone.klassikaplusserver.model.persistance.dao.IGenericDao;
@@ -11,8 +13,11 @@ import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
 import ru.legionofone.klassikaplusserver.web.controller.CatalogItemReceiver;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.ItemDto;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 @Component
 public class CatalogRepository {
@@ -23,6 +28,7 @@ public class CatalogRepository {
 
     private final IGenericDao<DbItem> genericHibernateProvider;
     private final CatalogItemReceiver receiver;
+    private final DaoToDomainMapper toDomainMapper = new DaoToDomainMapper();
 
     @Autowired
     public CatalogRepository(IGenericDao<DbItem> genericHibernateProvider, CatalogItemReceiver receiver) {
@@ -44,5 +50,12 @@ public class CatalogRepository {
                                         .forEach(genericHibernateProvider::update)),
                                 () -> logger.warn("Failed to obtain new dataset")),
                 Executors.newSingleThreadExecutor());
+    }
+
+    public List<CatalogItem> provideCatalogNovelties(){
+        return genericHibernateProvider.findAll().stream()
+                .map(toDomainMapper::map)
+                .filter(CatalogItem::getNovelty)
+                .collect(Collectors.toList());
     }
 }

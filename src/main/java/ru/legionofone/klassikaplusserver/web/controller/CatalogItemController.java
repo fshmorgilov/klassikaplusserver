@@ -1,5 +1,6 @@
 package ru.legionofone.klassikaplusserver.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +25,19 @@ public class CatalogItemController {
         this.catalogService = catalogService;
     }
 
-    @GetMapping(path = "get_novelties")
+    @GetMapping(path = "novelties")
     public ResponseEntity getNovelties(@RequestParam @Nullable String deviceId) {
+        ObjectMapper toJsonMapper = new ObjectMapper();
         logger.info("NOVELTY Request from client: " + deviceId);
+        catalogService.getNewItems()
+                .ifPresentOrElse(
+                        catalogItems -> {
+                            // TODO: 1/15/2019 200 and mapping
+                        },
+                        () -> {
+                            // TODO: 1/15/2019 404
+                        }
+                );
         return ResponseEntity
                 .ok()
                 .body("PLACEHOLDER");
