@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import ru.legionofone.klassikaplusserver.model.domain.CatalogItem;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.CategoryDto;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.DataDto;
+import ru.legionofone.klassikaplusserver.web.dto.obtained.ResponseDto;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -41,7 +42,7 @@ public class CatalogItemReceiver {
             if (response.isSuccessful()) {
                 logger.warn("Response: " + response.message() + "\nheaders " + response.headers().toString());
                 logger.debug("Response :" + response.body().string());
-                return Optional.ofNullable(mapper.readValue(response.body().string(), DataDto.class).getData());
+                return Optional.ofNullable(mapper.readValue(response.body().string(), ResponseDto.class).getData().getData());
             } else {
                 logger.warn("request failed");
                 logger.warn(" reason: " + response.message() + "\nheaders " + response.headers().toString());
