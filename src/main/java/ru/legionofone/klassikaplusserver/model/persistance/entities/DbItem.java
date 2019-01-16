@@ -2,6 +2,7 @@ package ru.legionofone.klassikaplusserver.model.persistance.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "item")
 public class DbItem implements Serializable {
@@ -67,8 +68,23 @@ public class DbItem implements Serializable {
     @Column(name = "price")
     private double price;
 
+    @Override
+    public String toString() {
+        return "DbItem{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", extId='" + extId + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getIcon() {

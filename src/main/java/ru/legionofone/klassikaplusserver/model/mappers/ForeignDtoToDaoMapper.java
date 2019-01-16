@@ -1,10 +1,14 @@
 package ru.legionofone.klassikaplusserver.model.mappers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.legionofone.klassikaplusserver.model.mappers.base.Mapping;
 import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.ItemDto;
 
 public class ForeignDtoToDaoMapper extends Mapping<ItemDto, DbItem> {
+
+    private static final Logger logger = LoggerFactory.getLogger(ForeignDtoToDaoMapper.class);
 
     @Override
     public DbItem map(ItemDto itemDto) {
@@ -22,6 +26,8 @@ public class ForeignDtoToDaoMapper extends Mapping<ItemDto, DbItem> {
         item.setPageAlias(itemDto.getPagetitle());
 //todo конвертер для галлереи изображений
         //todo validator
-        return null;
+
+        logger.debug("Mapped :" + item.toString());
+        return item;
     }
 }
