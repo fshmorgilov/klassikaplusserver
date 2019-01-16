@@ -22,7 +22,7 @@ public class StockItemUpdateService {
         this.catalogItemReceiver = catalogItemReceiver;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 60000)
     public void updateCatalogItem() {
         logger.info("Beginning routine procedure updating items");
             repository.updateCatalogItems();

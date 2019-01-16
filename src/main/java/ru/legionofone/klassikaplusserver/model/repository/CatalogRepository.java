@@ -48,11 +48,11 @@ public class CatalogRepository {
                                         .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
                                         // TODO: 1/14/2019 Переделать в одну транзакцию
                                         .forEach(genericHibernateProvider::update)),
-                                () -> logger.warn("Failed to obtain new dataset")),
-                Executors.newSingleThreadExecutor());
+                                () -> logger.warn("Failed to obtain new dataset"))
+        );
     }
 
-    public List<CatalogItem> provideCatalogNovelties(){
+    public List<CatalogItem> provideCatalogNovelties() {
         return genericHibernateProvider.findAll().stream()
                 .map(toDomainMapper::map)
                 .filter(CatalogItem::getNovelty)
