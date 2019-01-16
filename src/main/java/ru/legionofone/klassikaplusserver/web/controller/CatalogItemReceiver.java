@@ -23,7 +23,7 @@ public class CatalogItemReceiver {
 
     private static final Logger logger = LoggerFactory.getLogger(CatalogItemReceiver.class);
     private final String URL = "https://klassikaplus.ru/loadsget/?parent=3&pub=1&ping=" + provideCurrentDate();
-    private final String URL_MOCK = "https://8419c0f2-6cb4-43ae-98fe-3f1952f6300d.mock.pstmn.io";
+    private final String URL_MOCK = "https://8419c0f2-6cb4-43ae-98fe-3f1952f6300d.mock.pstmn.io/collection";
     private final String X_API_KEY = "x-api-key";
     private final String X_API_KEY_VALUE = "1bcb4719acff4e34802a223217b84177";
 
@@ -35,7 +35,7 @@ public class CatalogItemReceiver {
                 .url(URL_MOCK)
                 .header(X_API_KEY, X_API_KEY_VALUE)
                 .build();
-        logger.info("Making request: " + request.toString() + "\n and headers : " + request.headers().toString());
+        logger.info("Making request: " + request.toString() + "\n and headers : \n" + request.headers().toString());
         try {
             Response response = client.newCall(request) .execute();
             if (response.isSuccessful())
