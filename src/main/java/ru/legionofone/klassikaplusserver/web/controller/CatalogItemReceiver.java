@@ -35,7 +35,7 @@ public class CatalogItemReceiver {
                 .url(URL_MOCK)
                 .header(X_API_KEY, X_API_KEY_VALUE)
                 .build();
-        logger.info("Making request: " + request.toString());
+        logger.info("Making request: " + request.toString() + "\n and headers : " + request.headers().toString());
         try {
             Response response = client.newCall(request) .execute();
             if (response.isSuccessful())
