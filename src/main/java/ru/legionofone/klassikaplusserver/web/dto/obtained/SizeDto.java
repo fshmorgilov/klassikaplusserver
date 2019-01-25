@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "13",
         "14"
 })
+@Deprecated
 public class SizeDto implements Serializable {
 
     @JsonProperty("4")

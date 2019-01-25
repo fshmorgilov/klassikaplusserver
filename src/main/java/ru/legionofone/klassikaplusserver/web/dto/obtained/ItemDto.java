@@ -42,16 +42,16 @@ public class ItemDto {
     private Object oldPrice;
     @JsonProperty("country")
     private String country;
-    @JsonProperty("sostav")
-    private CompositionDto composition;
-    @JsonProperty("size")
-    private SizeDto size;
+//    @JsonProperty("sostav")
+//    private CompositionDto composition;
+//    @JsonProperty("size")
+//    private SizeDto size;
     @JsonProperty("brand")
     private String brand;
     @JsonProperty("number")
     private String number;
-    @JsonProperty("style")
-    private StyleDto style;
+//    @JsonProperty("style")
+//    private StyleDto style;
     @JsonProperty("articul")
     private String articul;
     @JsonProperty("view_main")
@@ -232,25 +232,25 @@ public class ItemDto {
         this.country = country;
     }
 
-    @JsonProperty("sostav")
-    public CompositionDto getComposition() {
-        return composition;
-    }
+//    @JsonProperty("sostav")
+//    public CompositionDto getComposition() {
+//        return composition;
+//    }
 
-    @JsonProperty("sostav")
-    public void setComposition(CompositionDto composition) {
-        this.composition = composition;
-    }
+//    @JsonProperty("sostav")
+//    public void setComposition(CompositionDto composition) {
+//        this.composition = composition;
+//    }
 
-    @JsonProperty("size")
-    public SizeDto getSize() {
-        return size;
-    }
+//    @JsonProperty("size")
+//    public SizeDto getSize() {
+//        return size;
+//    }
 
-    @JsonProperty("size")
-    public void setSize(SizeDto size) {
-        this.size = size;
-    }
+//    @JsonProperty("size")
+//    public void setSize(SizeDto size) {
+//        this.size = size;
+//    }
 
     @JsonProperty("brand")
     public String getBrand() {
@@ -272,15 +272,15 @@ public class ItemDto {
         this.number = number;
     }
 
-    @JsonProperty("style")
-    public StyleDto getStyle() {
-        return style;
-    }
+//    @JsonProperty("style")
+//    public StyleDto getStyle() {
+//        return style;
+//    }
 
-    @JsonProperty("style")
-    public void setStyle(StyleDto style) {
-        this.style = style;
-    }
+//    @JsonProperty("style")
+//    public void setStyle(StyleDto style) {
+//        this.style = style;
+//    }
 
     @JsonProperty("articul")
     public String getArticul() {
@@ -342,15 +342,15 @@ public class ItemDto {
         this.image = image;
     }
 
-    @JsonProperty("photogallery")
-    public PhotogalleryDto getPhotogallery() {
-        return photogallery;
-    }
+//    @JsonProperty("photogallery")
+//    public PhotogalleryDto getPhotogallery() {
+//        return photogallery;
+//    }
 
-    @JsonProperty("photogallery")
-    public void setPhotogallery(PhotogalleryDto photogallery) {
-        this.photogallery = photogallery;
-    }
+//    @JsonProperty("photogallery")
+//    public void setPhotogallery(PhotogalleryDto photogallery) {
+//        this.photogallery = photogallery;
+//    }
 
     @JsonProperty("child_pages")
     public String getChildPages() {

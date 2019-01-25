@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "469",
         "470"
 })
+@Deprecated
 public class StyleDto implements Serializable {
 
     @JsonProperty("468")

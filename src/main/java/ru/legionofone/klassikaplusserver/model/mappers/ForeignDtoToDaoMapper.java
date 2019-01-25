@@ -18,8 +18,8 @@ public class ForeignDtoToDaoMapper extends Mapping<ItemDto, DbItem> {
         item.setPrice(Double.valueOf(itemDto.getPrice()));
         if (itemDto.getImage() != null && !"".equals(itemDto.getImage()))
             item.setPhoto(itemDto.getImage());
-        else if (itemDto.getPhotogallery().getImage() != null && !"".equals(itemDto.getPhotogallery().getImage()))
-            item.setPhoto(itemDto.getPhotogallery().getImage());
+//        else if (itemDto.getPhotogallery().getImage() != null && !"".equals(itemDto.getPhotogallery().getImage()))
+//            item.setPhoto(itemDto.getPhotogallery().getImage());
         item.setName(itemDto.getPagetitle());
         item.setIcon(itemDto.getImgMini());
         item.setNovelty(Boolean.valueOf(itemDto.getNew()));

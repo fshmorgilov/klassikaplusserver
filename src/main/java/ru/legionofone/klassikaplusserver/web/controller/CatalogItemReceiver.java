@@ -37,21 +37,20 @@ public class CatalogItemReceiver {
                 .header(X_API_KEY, X_API_KEY_VALUE)
                 .build();
         logger.info("Making request: " + request.toString() + "\n and headers : \n" + request.headers().toString());
+
         try {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 logger.info("Response: " + response.message() + "\nheaders " + response.headers().toString());
-                logger.debug("Response :" + response.body().string());
-                DataDto dto = mapper.readValue(response.body().string(), DataDto.class);
+//                logger.debug("Response :" + response.body().string());
+                final String[] responseBody = new String[1];
+                Optional.ofNullable(response.body().string())
+                        .ifPresentOrElse(
+                                (String s) -> responseBody[0] = s,
+                                () -> responseBody[0] = ""
+                        ); // FIXME: 1/25/2019 хуета
 
-                //----------
-//                ClassLoader classLoader = KlassikaplusServerApplication.class.getClassLoader();
-//                File file = new File(classLoader.getResource("simple_obtained.json").getFile());
-//                System.out.println("----------------------");
-//                DataDto dto = mapper.readValue(file, DataDto.class);
-//                logger.error(dto.toString());
-                //----
-
+                DataDto dto = mapper.reader().forType(DataDto.class).readValue(responseBody[0]);
                 logger.info(dto.toString());
                 return Optional.of(dto.getData());
             } else {
