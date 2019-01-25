@@ -44,6 +44,7 @@ public class CatalogRepository {
                                     categoryDtos.forEach(categoryDto -> categoryDto
                                             .getChildPages()
                                             .stream()
+                                            .peek(itemDto -> logger.debug(itemDto.getDescription()))
                                             // TODO: 1/14/2019 Дроп базы
                                             .map(dtoToDaoMapper::map)
                                             .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))

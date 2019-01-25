@@ -42,7 +42,7 @@ public class CatalogItemReceiver {
             if (response.isSuccessful()) {
                 logger.warn("Response: " + response.message() + "\nheaders " + response.headers().toString());
                 logger.debug("Response :" + response.body().string());
-                return Optional.ofNullable(mapper.readValue(response.body().string(), ResponseDto.class).getData().getData());
+                return Optional.ofNullable(mapper.readValue(response.body().string(), DataDto.class).getData());
             } else {
                 logger.warn("request failed");
                 logger.warn(" reason: " + response.message() + "\nheaders " + response.headers().toString());
