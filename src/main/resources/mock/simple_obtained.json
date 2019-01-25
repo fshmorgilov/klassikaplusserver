@@ -1,0 +1,86 @@
+{
+  "data": [
+    {
+      "id": "436",
+      "menutitle": "",
+      "pagetitle": "Блузки и рубашки",
+      "parent": "3",
+      "longtitle": "Блузки и рубашки больших размеров купить в Москве ",
+      "uri": "bluzki-i-rubashki/",
+      "alias": "bluzki-i-rubashki",
+      "menuindex": "0",
+      "introtext": "",
+      "description": "",
+      "published": "1",
+      "template": "4",
+      "price": null,
+      "discount": null,
+      "old_price": null,
+      "country": "",
+      "sostav": null,
+      "size": null,
+      "brand": "",
+      "number": null,
+      "style": null,
+      "articul": null,
+      "view_main": null,
+      "new": null,
+      "with_goods": null,
+      "img_mini": "",
+      "image": "",
+      "photogallery": null,
+      "child_pages": [
+        {
+          "id": "730",
+          "menutitle": "",
+          "pagetitle": "Блузка Zinaida KatrinRoz",
+          "parent": "436",
+          "longtitle": "Нарядная блузка больших размеров с рюшами розового цвета из шелковой ткани",
+          "uri": "bluzka-zinaida-katrinroz-730.php",
+          "alias": "bluzka-zinaida-katrinroz-730",
+          "menuindex": "1",
+          "introtext": "",
+          "description": "Блузка 48 - 60 размеров для полных шелковая нарядная",
+          "published": "1",
+          "template": "14",
+          "price": "4 900",
+          "discount": null,
+          "old_price": null,
+          "country": "Россия",
+          "sostav": {
+            "MIGX_id": "1",
+            "title": "Шелк 50%, Полиэстер 50%"
+          },
+          "size": {
+            "4": "48",
+            "5": "50",
+            "6": "52",
+            "7": "54",
+            "8": "56",
+            "9": "58",
+            "10": "60"
+          },
+          "brand": "Zinaida",
+          "number": "730",
+          "style": {
+            "468": "Размеры XXL",
+            "469": "Деловая классика",
+            "470": "Одежда на выход"
+          },
+          "articul": "Katrin Silk Roz",
+          "view_main": null,
+          "new": "1",
+          "with_goods": null,
+          "img_mini": "",
+          "image": "https://klassikaplus.ru/assets/tmp/img/catalog/Bluza Zinaida Katrin Roz Silk 2.JPG",
+          "photogallery": {
+            "MIGX_id": "2",
+            "image": "https://klassikaplus.ru/assets/tmp/img/catalog/Bluza Zinaida Katrin Roz Silk 4.JPG",
+            "minimage": "",
+            "title": ""
+          },
+          "child_pages": ""
+        }
+      ]
+    }]
+}

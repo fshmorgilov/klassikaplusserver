@@ -4,15 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import ru.legionofone.klassikaplusserver.model.domain.CatalogItem;
+import ru.legionofone.klassikaplusserver.KlassikaplusServerApplication;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.CategoryDto;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.DataDto;
-import ru.legionofone.klassikaplusserver.web.dto.obtained.ResponseDto;
 
+import javax.xml.crypto.Data;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,7 +42,18 @@ public class CatalogItemReceiver {
             if (response.isSuccessful()) {
                 logger.info("Response: " + response.message() + "\nheaders " + response.headers().toString());
                 logger.debug("Response :" + response.body().string());
-                return Optional.ofNullable(mapper.readValue(response.body().string(), DataDto.class).getData());
+                DataDto dto = mapper.readValue(response.body().string(), DataDto.class);
+
+                //----------
+//                ClassLoader classLoader = KlassikaplusServerApplication.class.getClassLoader();
+//                File file = new File(classLoader.getResource("simple_obtained.json").getFile());
+//                System.out.println("----------------------");
+//                DataDto dto = mapper.readValue(file, DataDto.class);
+//                logger.error(dto.toString());
+                //----
+
+                logger.info(dto.toString());
+                return Optional.of(dto.getData());
             } else {
                 logger.error("request failed");
                 logger.error(" reason: " + response.message() + "\nheaders " + response.headers().toString());

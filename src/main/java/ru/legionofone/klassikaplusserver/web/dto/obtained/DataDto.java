@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class DataDto implements Serializable {
 
     @JsonProperty("data")
-    private List<CategoryDto> data = new ArrayList<CategoryDto>();
+    private List<CategoryDto> data = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = 2557721166194538629L;
@@ -43,5 +43,22 @@ public class DataDto implements Serializable {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        data.forEach(categoryDto -> {
+            builder.append("-------------")
+                    .append(categoryDto.getAlias())
+                    .append("\n");
+            categoryDto.getChildPages().forEach(itemDto -> builder
+                    .append(itemDto.getAlias())
+                    .append("\n"));
+        });
+        return "DataDto{" +
+                "data=" + "\n" + builder.toString() + "\n" +
+                ", additionalProperties=" + additionalProperties.toString() +
+                '}';
     }
 }
