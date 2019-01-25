@@ -40,12 +40,12 @@ public class CatalogItemReceiver {
         try {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
-                logger.warn("Response: " + response.message() + "\nheaders " + response.headers().toString());
+                logger.info("Response: " + response.message() + "\nheaders " + response.headers().toString());
                 logger.debug("Response :" + response.body().string());
                 return Optional.ofNullable(mapper.readValue(response.body().string(), DataDto.class).getData());
             } else {
-                logger.warn("request failed");
-                logger.warn(" reason: " + response.message() + "\nheaders " + response.headers().toString());
+                logger.error("request failed");
+                logger.error(" reason: " + response.message() + "\nheaders " + response.headers().toString());
                 return Optional.empty();
             }
         } catch (IOException e) {
