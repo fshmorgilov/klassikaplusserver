@@ -14,9 +14,7 @@ import ru.legionofone.klassikaplusserver.web.controller.CatalogItemReceiver;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.ItemDto;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Component

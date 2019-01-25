@@ -1,6 +1,8 @@
 package ru.legionofone.klassikaplusserver.model.persistance;
 
 import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -15,11 +17,13 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class HibernateConf {
 
+    private static final Logger logger = LoggerFactory.getLogger(HibernateConf.class);
+
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan( new String[]{"com.baeldung.hibernate.bootstrap.model"});
+        sessionFactory.setPackagesToScan("com.baeldung.hibernate.bootstrap.model");
         sessionFactory.setHibernateProperties(hibernateProperties());
 
         return sessionFactory;
@@ -30,6 +34,13 @@ public class HibernateConf {
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
         String username = System.getenv("JDBC_DATABASE_USERNAME");
         String password = System.getenv("JDBC_DATABASE_PASSWORD");
+
+        logger.info(new StringBuilder()
+                .append("Starting server on database: ").append("URL: ").append(dbUrl)
+                .append("User ").append(username)
+                .append("Password ").append(password)
+                .toString());
+
 
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
@@ -49,8 +60,8 @@ public class HibernateConf {
 
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty( "hibernate.hbm2ddl.auto", "create-drop");
-        hibernateProperties.setProperty( "hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 
         return hibernateProperties;
     }

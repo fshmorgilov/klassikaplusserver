@@ -51,8 +51,8 @@ public class CatalogItemReceiver {
                         ); // FIXME: 1/25/2019 хуета
 
                 DataDto dto = mapper.reader().forType(DataDto.class).readValue(responseBody[0]);
-                logger.info(dto.toString());
-                return Optional.of(dto.getData());
+                logger.debug(dto.toString());
+                return Optional.ofNullable(dto.getData());
             } else {
                 logger.error("request failed");
                 logger.error(" reason: " + response.message() + "\nheaders " + response.headers().toString());
