@@ -26,6 +26,7 @@ public class StockItemUpdateService {
     public void updateCatalogItem() {
         logger.info("Beginning routine procedure updating items");
             repository.updateCatalogItems();
+//            repository.testCatalogItemsPErsist();
             logger.info("Finished updating items");
         // TODO: 1/14/2019 Make concurrent
     }

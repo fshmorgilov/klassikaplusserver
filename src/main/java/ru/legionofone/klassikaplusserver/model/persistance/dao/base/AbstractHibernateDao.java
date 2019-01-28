@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.naming.OperationNotSupportedException;
 import javax.persistence.EntityManager;
@@ -27,27 +28,28 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         this.clazz = clazzToSet;
     }
 
+    @Transactional
     public T findOne(long id) {
         logger.info("Getting entity " + clazz.getName() + "\n id: " + id);
         return (T) getCurrentSession().get(clazz, id);
     }
 
+    @Transactional
     public List<T> findAll() {
         logger.info("Find All entities " + clazz.getName());
         return getCurrentSession().createQuery("from " + clazz.getName()).list();
     }
 
+    @Transactional
     public void create(T entity) {
-        logger.info("Creating entity" + clazz.getName());
-        getCurrentSession().beginTransaction();
+//        logger.info("Creating entity" + clazz.getName());
         getCurrentSession().persist(entity);
-        getCurrentSession().getTransaction().commit();
-//        entityManager.getTransaction().begin();
 //        entityManager.persist(entity);
 //        entityManager.detach(entity);
 //        entityManager.getTransaction().commit();
     }
 
+    @Transactional
     public void update(T entity) {
         logger.info("Merging entity" + clazz.getName());
         getCurrentSession().beginTransaction();
@@ -55,6 +57,7 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         getCurrentSession().getTransaction().commit();
     }
 
+    @Transactional
     public void delete(T entity) {
 
         logger.info("Deleting entity" + clazz.getName());
@@ -63,6 +66,7 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         getCurrentSession().getTransaction().commit();
     }
 
+    @Transactional
     public void deleteById(long entityId) {
         logger.info("Deleting entity " + clazz.getName() + "\n id: " + entityId);
         T entity = findOne(entityId);
@@ -70,6 +74,7 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         delete(entity);
         getCurrentSession().getTransaction().commit();
     }
+
 
     protected final Session getCurrentSession() {
 //        if (entityManager != null ) {

@@ -3,6 +3,7 @@ package ru.legionofone.klassikaplusserver.model.persistance;
 import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -31,6 +32,7 @@ public class HibernateConf {
 
     @Bean
     public DataSource dataSource() {
+
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
         String username = System.getenv("JDBC_DATABASE_USERNAME");
         String password = System.getenv("JDBC_DATABASE_PASSWORD");
@@ -42,13 +44,12 @@ public class HibernateConf {
                 .append("Password ").append(password).append(";")
                 .toString());
 
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl(dbUrl);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-
-        return dataSource;
+        return DataSourceBuilder.create()
+                .driverClassName("org.postgresql.Driver")
+                .url(dbUrl)
+                .username(username)
+                .password(password)
+                .build();
     }
 
     @Bean
@@ -61,7 +62,7 @@ public class HibernateConf {
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
-        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL94Dialect");
         hibernateProperties.setProperty("ShowSqlEnabled", "true");
 //        hibernateProperties.setProperty("hibernate.default_schema", "public");
 //        hibernateProperties.setProperty("hibernate.connection.autocommit", "true");

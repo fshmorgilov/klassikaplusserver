@@ -15,6 +15,8 @@ import ru.legionofone.klassikaplusserver.web.dto.obtained.ItemDto;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,6 +29,7 @@ public class CatalogRepository {
     private final IGenericDao<DbItem> genericHibernateProvider;
     private final CatalogItemReceiver receiver;
     private final DaoToDomainMapper toDomainMapper = new DaoToDomainMapper();
+    private final Executor exec = Executors.newFixedThreadPool(4);
 
     @Autowired
     public CatalogRepository(IGenericDao<DbItem> genericHibernateProvider, CatalogItemReceiver receiver) {
@@ -36,7 +39,7 @@ public class CatalogRepository {
     }
 
     public void updateCatalogItems() {
-        CompletableFuture.runAsync(() ->
+        exec.execute(() ->
                 receiver.provide()
                         .ifPresentOrElse(
                                 categoryDtos -> {
@@ -53,6 +56,17 @@ public class CatalogRepository {
                                 },
                                 () -> logger.warn("Failed to obtain new dataset"))
         );
+    }
+
+    public void testCatalogItemsPErsist() {
+//        CompletableFuture.runAsync( ()-> {
+        exec.execute(() -> {
+            DbItem item = new DbItem();
+            item.setName("test");
+            item.setPhoto("test");
+            genericHibernateProvider.create(item);
+        });
+//        });
 
     }
 
