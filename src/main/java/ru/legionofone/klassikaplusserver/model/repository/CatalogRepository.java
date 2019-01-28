@@ -31,6 +31,7 @@ public class CatalogRepository {
     @Autowired
     public CatalogRepository(IGenericDao<DbItem> genericHibernateProvider, CatalogItemReceiver receiver) {
         this.genericHibernateProvider = genericHibernateProvider;
+        this.genericHibernateProvider.setClazz(DbItem.class);
         this.receiver = receiver;
     }
 
@@ -47,7 +48,7 @@ public class CatalogRepository {
                                             .map(dtoToDaoMapper::map)
                                             .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
                                             // TODO: 1/14/2019 Переделать в одну транзакцию
-                                            .forEach(genericHibernateProvider::update));
+                                            .forEach(genericHibernateProvider::create));
                                     logger.info("Successfully obtained dataset");
                                 },
                                 () -> logger.warn("Failed to obtain new dataset"))

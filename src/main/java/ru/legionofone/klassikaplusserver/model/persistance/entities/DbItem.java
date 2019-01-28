@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity(name = "item")
+@Entity(name = "items")
+//@Table(name = "items")
 public class DbItem implements Serializable {
     //todo getter setter
     @Id

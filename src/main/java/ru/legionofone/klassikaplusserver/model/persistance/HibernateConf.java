@@ -23,7 +23,7 @@ public class HibernateConf {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.baeldung.hibernate.bootstrap.model");
+        sessionFactory.setPackagesToScan("ru.legionofone.klassikaplusserver.model.persistance");
         sessionFactory.setHibernateProperties(hibernateProperties());
 
         return sessionFactory;
@@ -36,11 +36,11 @@ public class HibernateConf {
         String password = System.getenv("JDBC_DATABASE_PASSWORD");
 
         logger.info(new StringBuilder()
-                .append("Starting server on database: ").append("URL: ").append(dbUrl)
-                .append("User ").append(username)
-                .append("Password ").append(password)
+                .append("Starting server on database: ")
+                .append("URL: ").append(dbUrl).append(";")
+                .append("User ").append(username).append(";")
+                .append("Password ").append(password).append(";")
                 .toString());
-
 
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
@@ -60,8 +60,11 @@ public class HibernateConf {
 
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        hibernateProperties.setProperty("ShowSqlEnabled", "true");
+//        hibernateProperties.setProperty("hibernate.default_schema", "public");
+//        hibernateProperties.setProperty("hibernate.connection.autocommit", "true");
 
         return hibernateProperties;
     }
