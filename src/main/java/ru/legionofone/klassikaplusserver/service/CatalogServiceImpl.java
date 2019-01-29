@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.legionofone.klassikaplusserver.model.domain.CatalogItem;
 import ru.legionofone.klassikaplusserver.model.repository.CatalogRepository;
+import ru.legionofone.klassikaplusserver.web.dto.provided.AndroidItemDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,15 +24,15 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Optional<List<CatalogItem>> getNewItems() {
-        List<CatalogItem> items = catalogRepository.provideCatalogNovelties();
-        if (items.isEmpty())
-            return Optional.empty();
-        else return Optional.of(items);
+    public Optional<List<AndroidItemDto>> getNewItems() {
+        logger.info("Service Providing novelties");
+        List<AndroidItemDto> items = catalogRepository.provideCatalogNovelties();
+        return Optional.ofNullable(items);
     }
 
     @Override
     public Optional<List<CatalogItem>> getAllItems() {
+        // TODO: 1/29/2019 TBI
         return Optional.empty();
     }
 }

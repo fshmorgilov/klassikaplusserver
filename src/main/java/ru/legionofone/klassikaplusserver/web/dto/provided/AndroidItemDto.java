@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.*;
         "photos"
 })
 @JsonRootName(value = "item")
-public class ItemDto implements Serializable {
+public class AndroidItemDto implements Serializable {
 
     @JsonProperty("id")
     private String id;
