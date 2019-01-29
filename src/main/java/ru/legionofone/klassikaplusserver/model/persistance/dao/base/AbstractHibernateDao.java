@@ -6,9 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
 
-import javax.naming.OperationNotSupportedException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
@@ -20,10 +18,10 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
     protected Class<T> clazz;
 
     @Autowired
-    SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     public final void setClazz(Class<T> clazzToSet) {
         this.clazz = clazzToSet;
@@ -37,8 +35,9 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
 
     @Transactional
     public List<T> findAll() {
-        logger.info("Find All entities " + clazz.getName());
-        return getCurrentSession().createQuery("from " + clazz.getName()).list();
+//        logger.info("Find All entities " + clazz.getName());
+        // FIXME: 1/29/2019 make generic back
+        return entityManager.createQuery("from items").getResultList();
     }
 
     @Transactional

@@ -33,11 +33,15 @@ public class CatalogItemController {
     }
 
     @GetMapping(path = "novelties")
-    public ResponseDto getNovelties(@RequestParam @Nullable String deviceId) {
+    public ResponseEntity getNovelties(@RequestParam @Nullable String deviceId) {
         final ObjectMapper toJsonMapper = new ObjectMapper();
         logger.info("NOVELTY Request from client: " + deviceId);
         List<AndroidItemDto> items = catalogService.getNewItems()
                 .orElse(new ArrayList<>());
+        logger.debug("Items obtained: ");
+        items.stream()
+                .map(AndroidItemDto::getName)
+                .forEach(logger::debug);
         if (!items.isEmpty()) {
             ResponseDto responseDto = new ResponseDto();
             responseDto.setStatus(OK_STATUS);
@@ -45,13 +49,14 @@ public class CatalogItemController {
             dataDto.setItems(items);
             responseDto.setData(dataDto);
             logger.debug("Formed message " + items.toString());
-            return responseDto;
-//            return ResponseEntity.ok()
-//                    .body(toJsonMapper.convertValue(responseDto, ResponseDto.class));
+//            return responseDto;
+            return ResponseEntity.ok()
+                    .body(toJsonMapper.convertValue(responseDto, ResponseDto.class));
         } else {
             logger.info("No novelties found");
-            return new ResponseDto();//            return ResponseEntity.badRequest()
-//                    .build();
+//            return new ResponseDto();
+            return ResponseEntity.badRequest()
+                    .build();
         }
     }
 
