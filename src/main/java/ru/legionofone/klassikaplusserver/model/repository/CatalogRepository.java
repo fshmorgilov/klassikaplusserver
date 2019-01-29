@@ -43,11 +43,11 @@ public class CatalogRepository {
                 receiver.provide()
                         .ifPresentOrElse(
                                 categoryDtos -> {
+                                    genericHibernateProvider.deleteAll();
                                     categoryDtos.forEach(categoryDto -> categoryDto
                                             .getChildPages()
                                             .stream()
                                             .peek(itemDto -> logger.debug(itemDto.getDescription()))
-                                            // TODO: 1/14/2019 Дроп базы
                                             .map(dtoToDaoMapper::map)
                                             .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
                                             // TODO: 1/14/2019 Переделать в одну транзакцию
@@ -56,18 +56,6 @@ public class CatalogRepository {
                                 },
                                 () -> logger.warn("Failed to obtain new dataset"))
         );
-    }
-
-    public void testCatalogItemsPErsist() {
-//        CompletableFuture.runAsync( ()-> {
-        exec.execute(() -> {
-            DbItem item = new DbItem();
-            item.setName("test");
-            item.setPhoto("test");
-            genericHibernateProvider.create(item);
-        });
-//        });
-
     }
 
     public List<CatalogItem> provideCatalogNovelties() {

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
 
 import javax.naming.OperationNotSupportedException;
 import javax.persistence.EntityManager;
@@ -64,6 +65,11 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
         delete(entity);
     }
 
+    @Transactional
+    public void deleteAll(){
+        logger.info("Dropping table");
+        entityManager.createQuery("DELETE FROM items").executeUpdate();
+    }
 
     protected final Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
