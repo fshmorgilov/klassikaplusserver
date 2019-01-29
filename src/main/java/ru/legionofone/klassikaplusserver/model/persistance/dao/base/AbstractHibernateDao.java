@@ -42,47 +42,30 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
 
     @Transactional
     public void create(T entity) {
-//        logger.info("Creating entity" + clazz.getName());
         getCurrentSession().persist(entity);
-//        entityManager.persist(entity);
-//        entityManager.detach(entity);
-//        entityManager.getTransaction().commit();
     }
 
     @Transactional
     public void update(T entity) {
         logger.info("Merging entity" + clazz.getName());
-        getCurrentSession().beginTransaction();
         getCurrentSession().merge(entity);
-        getCurrentSession().getTransaction().commit();
     }
 
     @Transactional
     public void delete(T entity) {
-
         logger.info("Deleting entity" + clazz.getName());
-        getCurrentSession().beginTransaction();
         getCurrentSession().delete(entity);
-        getCurrentSession().getTransaction().commit();
     }
 
     @Transactional
     public void deleteById(long entityId) {
         logger.info("Deleting entity " + clazz.getName() + "\n id: " + entityId);
         T entity = findOne(entityId);
-        getCurrentSession().beginTransaction();
         delete(entity);
-        getCurrentSession().getTransaction().commit();
     }
 
 
     protected final Session getCurrentSession() {
-//        if (entityManager != null ) {
-//            return entityManager.getEntityManagerFactory().unwrap(SessionFactory.class).getCurrentSession();
-//        } else {
-//            logger.error("Failed to obtain session factory");
-//            throw new NullPointerException(); // FIXME: 1/28/2019
-//        }
         return sessionFactory.getCurrentSession();
     }
 }
