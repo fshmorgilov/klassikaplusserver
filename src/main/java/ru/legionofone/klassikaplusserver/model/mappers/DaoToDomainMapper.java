@@ -7,6 +7,8 @@ import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
 public class DaoToDomainMapper extends Mapping<DbItem, CatalogItem> {
     @Override
     public CatalogItem map(DbItem dbItem) {
+        CatalogItem item = new CatalogItem();
+//        item.
         return null;
     }
 }
