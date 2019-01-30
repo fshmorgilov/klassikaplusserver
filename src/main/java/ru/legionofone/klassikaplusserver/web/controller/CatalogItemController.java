@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.legionofone.klassikaplusserver.service.CatalogService;
 import ru.legionofone.klassikaplusserver.web.dto.provided.AndroidItemDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.DataDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.ErrorDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.ResponseDto;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class CatalogItemController {
     }
 
     @GetMapping(path = "novelties")
-    public ResponseEntity getNovelties(@RequestParam @Nullable String deviceId) {
+    public ResponseEntity getNovelties(@RequestParam(required = false) @Nullable String deviceId) {
         final ObjectMapper toJsonMapper = new ObjectMapper();
         logger.info("NOVELTY Request from client: " + deviceId);
         List<AndroidItemDto> items = catalogService.getNewItems()
@@ -46,16 +47,18 @@ public class CatalogItemController {
             ResponseDto responseDto = new ResponseDto();
             responseDto.setStatus(OK_STATUS);
             DataDto dataDto = new DataDto();
+            List<ErrorDto> errors = new ArrayList<>();
             dataDto.setItems(items);
+            responseDto.setErrors(errors);
             responseDto.setData(dataDto);
             logger.debug("Formed message " + items.toString());
-//            return responseDto;
-            return ResponseEntity.ok()
+            return ResponseEntity
+                    .ok()
                     .body(toJsonMapper.convertValue(responseDto, ResponseDto.class));
         } else {
             logger.info("No novelties found");
-//            return new ResponseDto();
-            return ResponseEntity.badRequest()
+            return ResponseEntity
+                    .noContent()
                     .build();
         }
     }
