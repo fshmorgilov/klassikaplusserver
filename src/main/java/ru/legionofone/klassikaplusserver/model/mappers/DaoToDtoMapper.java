@@ -15,7 +15,10 @@ public class DaoToDtoMapper extends Mapping<DbItem, AndroidItemDto> {
         dto.setVendorCode(dbItem.getVendorCode());
         dto.setNovelty(dbItem.getNovelty());
         dto.setPageAlias(dbItem.getPageAlias());
-        dto.setIcon(dbItem.getIcon());
+        if (!dbItem.getIcon().isEmpty())
+            dto.setIcon(dbItem.getIcon());
+        else
+            dto.setIcon(dbItem.getPhoto());
         dto.setBasePrice(dbItem.getBasePrice());
         dto.setPrice(dbItem.getPrice());
         // TODO: 1/29/2019
