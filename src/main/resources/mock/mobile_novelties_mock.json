@@ -1,0 +1,44 @@
+{
+  "data": {
+    "items": [
+      {
+        "id": "156123",
+        "ext_id": "asdqweasd",
+        "name": "ПЛАТЬЕ ZAKKARD",
+        "description": "Платье футляр из жаккардовой текстильной ткани на подкладке с рукавами воланами. Застегивается сзади на потайную застежку-молнию",
+        "vendorCode": "",
+        "novelty": true,
+        "pageAlias": "https://klassikaplus.ru/plate-zakkard-655.php",
+        "icon": "https://www.klassikaplus.ru/assets/tmp/img/catalog/canvas460.png",
+        "manufacturer": "ONARI",
+        "base_price": 9700.123,
+        "discount": 10,
+        "discountable": true,
+        "price": 8730,
+        "photos" : [
+          {
+            "id" : "1235412",
+            "image": "https://www.klassikaplus.ru/assets/tmp/img/catalog/canvas461.png"
+          },
+          {
+            "id" : "1235413",
+            "image": "https://www.klassikaplus.ru/assets/tmp/img/catalog/canvas460.png"
+          },
+          {
+            "id" : "1235414",
+            "image": "https://www.klassikaplus.ru/assets/tmp/img/catalog/canvas459.png"
+          }
+
+        ]
+      }
+
+    ]
+  },
+  "status": "ok",
+  "errors": [
+    {
+      "code" : 5123,
+      "description" : ""
+    }
+  ]
+}
