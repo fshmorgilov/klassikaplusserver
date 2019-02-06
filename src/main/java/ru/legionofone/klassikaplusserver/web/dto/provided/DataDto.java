@@ -15,18 +15,18 @@ import com.fasterxml.jackson.annotation.*;
 public class DataDto implements Serializable {
 
     @JsonProperty("items")
-    private List<ItemDto> items = null;
+    private List<AndroidItemDto> items = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = 9010141154147269969L;
 
     @JsonProperty("items")
-    public List<ItemDto> getItems() {
+    public List<AndroidItemDto> getItems() {
         return items;
     }
 
     @JsonProperty("items")
-    public void setItems(List<ItemDto> items) {
+    public void setItems(List<AndroidItemDto> items) {
         this.items = items;
     }
 

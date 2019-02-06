@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.OperationNotSupportedException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
@@ -19,10 +18,10 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
     protected Class<T> clazz;
 
     @Autowired
-    SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     public final void setClazz(Class<T> clazzToSet) {
         this.clazz = clazzToSet;
@@ -36,53 +35,42 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
 
     @Transactional
     public List<T> findAll() {
-        logger.info("Find All entities " + clazz.getName());
-        return getCurrentSession().createQuery("from " + clazz.getName()).list();
+//        logger.info("Find All entities " + clazz.getName());
+        // FIXME: 1/29/2019 make generic back
+        return entityManager.createQuery("from items").getResultList();
     }
 
     @Transactional
     public void create(T entity) {
-//        logger.info("Creating entity" + clazz.getName());
         getCurrentSession().persist(entity);
-//        entityManager.persist(entity);
-//        entityManager.detach(entity);
-//        entityManager.getTransaction().commit();
     }
 
     @Transactional
     public void update(T entity) {
         logger.info("Merging entity" + clazz.getName());
-        getCurrentSession().beginTransaction();
         getCurrentSession().merge(entity);
-        getCurrentSession().getTransaction().commit();
     }
 
     @Transactional
     public void delete(T entity) {
-
         logger.info("Deleting entity" + clazz.getName());
-        getCurrentSession().beginTransaction();
         getCurrentSession().delete(entity);
-        getCurrentSession().getTransaction().commit();
     }
 
     @Transactional
     public void deleteById(long entityId) {
         logger.info("Deleting entity " + clazz.getName() + "\n id: " + entityId);
         T entity = findOne(entityId);
-        getCurrentSession().beginTransaction();
         delete(entity);
-        getCurrentSession().getTransaction().commit();
     }
 
+    @Transactional
+    public void deleteAll(){
+        logger.info("Dropping table");
+        entityManager.createQuery("DELETE FROM items").executeUpdate();
+    }
 
     protected final Session getCurrentSession() {
-//        if (entityManager != null ) {
-//            return entityManager.getEntityManagerFactory().unwrap(SessionFactory.class).getCurrentSession();
-//        } else {
-//            logger.error("Failed to obtain session factory");
-//            throw new NullPointerException(); // FIXME: 1/28/2019
-//        }
         return sessionFactory.getCurrentSession();
     }
 }

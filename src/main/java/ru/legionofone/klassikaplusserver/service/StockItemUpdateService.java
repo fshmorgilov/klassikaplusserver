@@ -22,11 +22,10 @@ public class StockItemUpdateService {
         this.catalogItemReceiver = catalogItemReceiver;
     }
 
-    @Scheduled(fixedRate = 600000)
+    @Scheduled(fixedRate = 86400000)
     public void updateCatalogItem() {
         logger.info("Beginning routine procedure updating items");
             repository.updateCatalogItems();
-//            repository.testCatalogItemsPErsist();
             logger.info("Finished updating items");
         // TODO: 1/14/2019 Make concurrent
     }
