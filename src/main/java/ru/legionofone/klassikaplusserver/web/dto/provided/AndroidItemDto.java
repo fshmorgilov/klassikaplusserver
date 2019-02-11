@@ -194,6 +194,7 @@ public class AndroidItemDto implements Serializable {
         return photos;
     }
 
+
     @JsonProperty("photos")
     public void setPhotos(List<PhotoDto> photos) {
         this.photos = photos;
