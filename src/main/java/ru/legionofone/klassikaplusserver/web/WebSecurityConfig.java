@@ -15,9 +15,31 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-                .antMatchers("/catalog").permitAll();
+
+    http
+        .authorizeRequests()
+                .antMatchers("/catalog").permitAll()
+                .antMatchers("/login*").permitAll()
+            .anyRequest().authenticated()
+        .and()
+            .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .defaultSuccessUrl("/homepage.html", true)
+//        .failureUrl("login.html?error=true"); todo Сделать нормальную страничку.
+        .and()
+            .logout()
+                .logoutUrl("/perform_logout")
+                .permitAll()
+                .logoutSuccessUrl("/hello")
+                .deleteCookies("JSESSIONID") // FIXME: 2/12/2019 Ну прям хз
+        .and()
+            .httpBasic(); // TODO: 2/12/2019 just commit
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
