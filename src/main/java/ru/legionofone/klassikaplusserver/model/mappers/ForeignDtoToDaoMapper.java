@@ -30,7 +30,7 @@ public class ForeignDtoToDaoMapper extends Mapping<ItemDto, DbItem> {
         item.setNovelty(noveltyParcel(cleanString(itemDto
                 .getNew()))
                 .orElse(false));
-        item.setPageAlias(itemDto.getPagetitle());
+        item.setPageAlias("https://klassikaplus.ru/" + itemDto.getUri());// FIXME: 2/8/2019 to appconfig
 //todo конвертер для галлереи изображений
 
         logger.debug("Mapped :" + item.toString());
