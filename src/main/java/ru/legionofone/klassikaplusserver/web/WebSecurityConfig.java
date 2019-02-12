@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/hello")
                 .deleteCookies("JSESSIONID") // FIXME: 2/12/2019 Ну прям хз
         .and()
-            .httpBasic();
+            .httpBasic(); // TODO: 2/12/2019 just commit
     }
 
     @Bean
