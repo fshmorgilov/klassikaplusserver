@@ -31,9 +31,11 @@ public abstract class AbstractHibernateDao<T extends DbEntity> {
         this.clazz = clazzToSet;
         if (clazz == DbItem.class) {
             this.tableName = DbItem.provideTableName();
-        } else if (clazz == DbRevision.class)
+            logger.info("Setting table name for this dao: " + tableName);
+        } else if (clazz == DbRevision.class) {
             this.tableName = DbRevision.provideTableName();
-        else throw new RuntimeException(clazz.getName() + " is not a valid Database object");
+            logger.info("Setting table name for this dao: " + tableName);
+        } else throw new RuntimeException(clazz.getName() + " is not a valid Database object");
     }
 
     public final void setTableName(String tableName) {

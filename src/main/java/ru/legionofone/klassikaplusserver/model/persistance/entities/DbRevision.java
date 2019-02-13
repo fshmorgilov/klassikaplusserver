@@ -12,7 +12,7 @@ public class DbRevision extends DbEntity {
 
     @Id
     @GeneratedValue
-    private String id;
+    private int id;
 
     @Column(name = "number")
     private int number;
@@ -21,11 +21,11 @@ public class DbRevision extends DbEntity {
     @Column(name = "date_created")
     private Date dateCreated;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
