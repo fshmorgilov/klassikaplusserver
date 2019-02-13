@@ -5,17 +5,21 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.history.Revision;
 import org.springframework.transaction.annotation.Transactional;
+import ru.legionofone.klassikaplusserver.model.persistance.entities.DbEntity;
+import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
+import ru.legionofone.klassikaplusserver.model.persistance.entities.DbRevision;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractHibernateDao<T extends Serializable> {
+public abstract class AbstractHibernateDao<T extends DbEntity> {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractHibernateDao.class);
     protected Class<T> clazz;
+    protected String tableName;
 
     @Autowired
     protected SessionFactory sessionFactory;
@@ -25,6 +29,15 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
 
     public final void setClazz(Class<T> clazzToSet) {
         this.clazz = clazzToSet;
+        if (clazz == DbItem.class) {
+            this.tableName = DbItem.provideTableName();
+        } else if (clazz == DbRevision.class)
+            this.tableName = DbRevision.provideTableName();
+        else throw new RuntimeException(clazz.getName() + " is not a valid Database object");
+    }
+
+    public final void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     @Transactional
@@ -36,8 +49,7 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
     @Transactional
     public List<T> findAll() {
 //        logger.info("Find All entities " + clazz.getName());
-        // FIXME: 1/29/2019 make generic back
-        return entityManager.createQuery("from items").getResultList();
+        return entityManager.createQuery("from " + tableName).getResultList();
     }
 
     @Transactional
@@ -65,7 +77,7 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
     }
 
     @Transactional
-    public void deleteAll(){
+    public void deleteAll() {
         logger.info("Dropping table");
         entityManager.createQuery("DELETE FROM items").executeUpdate();
     }

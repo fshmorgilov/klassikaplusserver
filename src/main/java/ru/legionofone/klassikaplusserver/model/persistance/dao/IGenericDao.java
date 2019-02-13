@@ -1,9 +1,11 @@
 package ru.legionofone.klassikaplusserver.model.persistance.dao;
 
+import ru.legionofone.klassikaplusserver.model.persistance.entities.DbEntity;
+
 import java.io.Serializable;
 import java.util.List;
 
-public interface IGenericDao<T extends Serializable> {
+public interface IGenericDao<T extends DbEntity> {
  
    T findOne(final long id);
  
@@ -18,6 +20,8 @@ public interface IGenericDao<T extends Serializable> {
    void deleteById(final long entityId);
 
    void setClazz(Class<T> tClass);
+
+   void setTableName(String tableName);
 
    void deleteAll();
 }
