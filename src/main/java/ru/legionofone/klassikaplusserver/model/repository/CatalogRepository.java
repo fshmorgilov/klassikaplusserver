@@ -29,22 +29,23 @@ public class CatalogRepository {
     private final ListMapping<ItemDto, DbItem> foreignDtoToDaoListMapper = new ListMapping<>(new ForeignDtoToDaoMapper());
 
     private final IGenericDao<DbItem> dbItemDao;
+    private final IGenericDao<DbRevision> dbRevisionDao;
     private final CatalogItemReceiver receiver;
     private final DaoToDomainMapper toDomainMapper = new DaoToDomainMapper();
     private final DaoToDtoMapper daoToDtoMapper = new DaoToDtoMapper();
+    // TODO: 2/15/2019 refactor
     private final Executor exec = Executors.newFixedThreadPool(4);
-    private final IGenericDao<DbRevision> dbRevisionDao;
 
     private Integer revision;
 
     @Autowired
     public CatalogRepository(@Qualifier("itemRepo") IGenericDao<DbItem> dbItemDao,
                              @Qualifier("revisionRepo") IGenericDao<DbRevision> dbRevisionDao,
-                             CatalogItemReceiver receiver    ) {
+                             CatalogItemReceiver receiver) {
         this.dbItemDao = dbItemDao;
         this.receiver = receiver;
         this.dbRevisionDao = dbRevisionDao;
-//        getRevision();
+        getRevision();
     }
 
     public void updateCatalogItems() {
@@ -75,26 +76,26 @@ public class CatalogRepository {
     }
 
 
-//    public synchronized Integer getRevision() {
-//        if (revision == null) {
-//            revision = dbRevisionDao.findAll()
-//                    .stream()
-//                    .map(DbRevision::getId)
-//                    .sorted()
-//                    .findFirst()
-//                    .orElse(1);
-//        }
-//        logger.info("Current revision : " + revision);
-//        return revision;
-//    }
+    public synchronized Integer getRevision() {
+        if (revision == null) {
+            revision = dbRevisionDao.findAll()
+                    .stream()
+                    .map(DbRevision::getId)
+                    .sorted()
+                    .findFirst()
+                    .orElse(1);
+        }
+        logger.info("Current revision : " + revision);
+        return revision;
+    }
 
-//    public void updateRevision() {
-//        logger.info("Increasing revision. Old: " + revision);
-//        this.revision = ++revision;
-//        CompletableFuture.runAsync(() -> {
-//            DbRevision rev = new DbRevision();
-//            rev.setNumber(revision);
-//            dbRevisionDao.update(rev);
-//        });
-//    }
+    public void updateRevision() {
+        logger.info("Increasing revision. Old: " + revision);
+        this.revision = ++revision;
+        exec.execute(() -> {
+            DbRevision rev = new DbRevision();
+            rev.setNumber(revision);
+            dbRevisionDao.update(rev);
+        });
+    }
 }
