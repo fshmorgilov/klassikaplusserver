@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.history.Revision;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 import ru.legionofone.klassikaplusserver.model.persistance.entities.DbEntity;
 import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
@@ -27,8 +28,12 @@ public abstract class AbstractHibernateDao<T extends DbEntity> {
     @PersistenceContext
     protected EntityManager entityManager;
 
-    public final void setClazz(Class<T> clazzToSet) {
+    public final void setClazz(@NonNull Class<T> clazzToSet) {
         this.clazz = clazzToSet;
+//        switch (clazz){
+//            case DbItem.class:
+//
+//        }
         if (clazz == DbItem.class) {
             this.tableName = DbItem.provideTableName();
             logger.info("Setting table name for this dao: " + tableName);
