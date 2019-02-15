@@ -37,7 +37,7 @@ public class ItemDao implements IGenericDao<DbItem> {
 
     @Transactional
     public List<DbItem> findAll() {
-//        logger.info("Find All entities " + clazz.getName());
+        logger.info("Find All entities " + DbItem.class.getName());
         return entityManager.createQuery("from " + DbItem.provideTableName()).getResultList();
     }
 
@@ -63,6 +63,16 @@ public class ItemDao implements IGenericDao<DbItem> {
         logger.info("Deleting entity " + DbItem.class.getName() + "\n id: " + entityId);
         DbItem entity = findOne(entityId);
         delete(entity);
+    }
+
+    @Override
+    @Deprecated
+    public void setClazz(Class<DbItem> clazzToSet) {
+    }
+
+    @Override
+    @Deprecated
+    public void setTableName(String tableName) {
     }
 
     @Transactional

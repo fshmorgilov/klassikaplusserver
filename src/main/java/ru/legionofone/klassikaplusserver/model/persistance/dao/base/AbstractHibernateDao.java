@@ -30,10 +30,6 @@ public abstract class AbstractHibernateDao<T extends DbEntity> {
 
     public final void setClazz(@NonNull Class<T> clazzToSet) {
         this.clazz = clazzToSet;
-//        switch (clazz){
-//            case DbItem.class:
-//
-//        }
         if (clazz == DbItem.class) {
             this.tableName = DbItem.provideTableName();
             logger.info("Setting table name for this dao: " + tableName);

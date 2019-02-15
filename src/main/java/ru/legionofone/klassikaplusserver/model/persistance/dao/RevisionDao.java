@@ -71,6 +71,7 @@ public class RevisionDao implements IGenericDao<DbRevision> {
         delete(entity);
     }
 
+
     @Transactional
     @Deprecated
     public void deleteAll() {
@@ -78,7 +79,19 @@ public class RevisionDao implements IGenericDao<DbRevision> {
         entityManager.createQuery("DELETE FROM " + DbRevision.provideTableName()).executeUpdate();
     }
 
-    protected final Session getCurrentSession() {
+    private Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
+    }
+
+    @Override
+    @Deprecated
+    public void setClazz(Class<DbRevision> clazzToSet) {
+
+    }
+
+    @Override
+    @Deprecated
+    public void setTableName(String tableName) {
+
     }
 }
