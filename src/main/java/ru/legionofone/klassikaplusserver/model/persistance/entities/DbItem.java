@@ -2,11 +2,10 @@ package ru.legionofone.klassikaplusserver.model.persistance.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity(name = "items")
 //@Table(name = "items")
-public class DbItem implements Serializable {
+public class DbItem extends DbEntity implements Serializable{
     //todo getter setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -255,4 +254,9 @@ public class DbItem implements Serializable {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public static String provideTableName() {
+        return "items";
+    }
+
 }
