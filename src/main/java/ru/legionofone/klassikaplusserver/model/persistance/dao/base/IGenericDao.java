@@ -1,8 +1,7 @@
-package ru.legionofone.klassikaplusserver.model.persistance.dao;
+package ru.legionofone.klassikaplusserver.model.persistance.dao.base;
 
 import ru.legionofone.klassikaplusserver.model.persistance.entities.DbEntity;
 
-import java.io.Serializable;
 import java.util.List;
 
 public interface IGenericDao<T extends DbEntity> {
@@ -18,10 +17,6 @@ public interface IGenericDao<T extends DbEntity> {
    void delete(final T entity);
  
    void deleteById(final long entityId);
-
-   void setClazz(Class<T> tClass);
-
-   void setTableName(String tableName);
 
    void deleteAll();
 }

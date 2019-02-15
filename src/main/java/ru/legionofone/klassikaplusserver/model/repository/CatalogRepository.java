@@ -3,12 +3,13 @@ package ru.legionofone.klassikaplusserver.model.repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.legionofone.klassikaplusserver.model.mappers.DaoToDomainMapper;
 import ru.legionofone.klassikaplusserver.model.mappers.DaoToDtoMapper;
 import ru.legionofone.klassikaplusserver.model.mappers.ForeignDtoToDaoMapper;
 import ru.legionofone.klassikaplusserver.model.mappers.base.ListMapping;
-import ru.legionofone.klassikaplusserver.model.persistance.dao.IGenericDao;
+import ru.legionofone.klassikaplusserver.model.persistance.dao.base.IGenericDao;
 import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
 import ru.legionofone.klassikaplusserver.model.persistance.entities.DbRevision;
 import ru.legionofone.klassikaplusserver.web.controller.CatalogItemReceiver;
@@ -16,7 +17,6 @@ import ru.legionofone.klassikaplusserver.web.dto.obtained.ItemDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.AndroidItemDto;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -33,17 +33,17 @@ public class CatalogRepository {
     private final DaoToDomainMapper toDomainMapper = new DaoToDomainMapper();
     private final DaoToDtoMapper daoToDtoMapper = new DaoToDtoMapper();
     private final Executor exec = Executors.newFixedThreadPool(4);
-//    private final IGenericDao<DbRevision> dbRevisionDao;
+    private final IGenericDao<DbRevision> dbRevisionDao;
 
     private Integer revision;
 
     @Autowired
-    public CatalogRepository(IGenericDao<DbItem> dbItemDao, CatalogItemReceiver receiver, IGenericDao<DbRevision> dbRevisionDao) {
+    public CatalogRepository(@Qualifier("itemRepo") IGenericDao<DbItem> dbItemDao,
+                             @Qualifier("revisionRepo") IGenericDao<DbRevision> dbRevisionDao,
+                             CatalogItemReceiver receiver    ) {
         this.dbItemDao = dbItemDao;
-        this.dbItemDao.setClazz(DbItem.class);
-//        this.dbRevisionDao = dbRevisionDao;
-//        this.dbRevisionDao.setClazz(DbRevision.class);
         this.receiver = receiver;
+        this.dbRevisionDao = dbRevisionDao;
 //        getRevision();
     }
 

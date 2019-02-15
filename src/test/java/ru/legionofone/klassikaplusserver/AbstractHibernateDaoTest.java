@@ -7,10 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.legionofone.klassikaplusserver.model.persistance.dao.IGenericDao;
+import ru.legionofone.klassikaplusserver.model.persistance.dao.base.IGenericDao;
 import ru.legionofone.klassikaplusserver.model.persistance.entities.DbRevision;
 
 import java.util.Date;
@@ -39,8 +38,6 @@ public class AbstractHibernateDaoTest {
 
     @Test
     public void saveRevisionTest() {
-        revisionDao.setClazz(DbRevision.class);
-        revisionDao.setTableName(DbRevision.provideTableName());
         revisionDao.update(dbRevision);
         DbRevision testRev = revisionDao.findOne(2);
         assertEquals(testRev, dbRevision);
