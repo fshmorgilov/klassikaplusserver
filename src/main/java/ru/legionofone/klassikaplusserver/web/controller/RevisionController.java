@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.legionofone.klassikaplusserver.service.CatalogService;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController("revision")
 public class RevisionController {
 
@@ -24,20 +21,17 @@ public class RevisionController {
         this.catalog = service;
     }
 
-    @GetMapping
+    @GetMapping("get_revision")
     public Integer getCurrentRevision() {
         logger.info("Providing revision number");
         return catalog.getRevision();
     }
 
 
-    @PostMapping
+    @PostMapping("update_revision")
     public ResponseEntity updateRevision() {
         logger.info("Request updating revision");
         catalog.updateRevision();
-
-        List<Object> list = new ArrayList<>();
-
         return ResponseEntity.ok().build();
     }
 }
