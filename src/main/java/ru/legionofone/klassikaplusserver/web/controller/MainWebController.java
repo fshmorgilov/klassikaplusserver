@@ -11,7 +11,7 @@ import ru.legionofone.klassikaplusserver.service.CatalogService;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController("/")
+@Controller
 public class MainWebController {
 
     final CatalogService service;
@@ -21,8 +21,9 @@ public class MainWebController {
         this.service = service;
     }
 
-    @GetMapping("greeting")
-    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "Anonymous") String name ){
+    @GetMapping("/")
+    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "Anonymous") String name, Model model ){
+        model.addAttribute("name", name);
         return "greeting";
     }
 
