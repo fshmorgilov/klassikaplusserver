@@ -5,11 +5,17 @@
     <title>Hello World!</title>
 </head>
 <body>
+
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<!--TODO сделать кнопку для обновления номера ревизии-->
-<label>Псотавить кнопку обновить ревизию</label>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
+<button th:type="toolbarButtonGraphics" th:action="@{/revision/update_revision}" th:method="post">Click me</button>
+<form th:action="@{/update_revision}" method="post">
+        <input type="submit" value="Increase revision">
 </form>
+<br>
+<label>Logout: </label>
+<br>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
 </body>
 </html>
