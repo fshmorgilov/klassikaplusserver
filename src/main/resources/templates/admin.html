@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Hello World!</title>
+    <title></title>
 </head>
 <body>
-
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<button th:type="toolbarButtonGraphics" th:action="@{/revision/update_revision}" th:method="post">Click me</button>
-<form th:action="@{/update_revision}" method="post">
-        <input type="submit" value="Increase revision">
+<form method="post" th:action="@{/update_revision}">
+    <input type="submit" value="Increase revision"/>
 </form>
 <br>
 <label>Logout: </label>
 <br>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
+<form method="post" th:action="@{/logout}">
+    <input type="submit" value="Sign Out"/>
+</form>
 </body>
 </html>

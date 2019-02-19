@@ -1,5 +1,7 @@
 package ru.legionofone.klassikaplusserver.model.persistance.entities;
 
+import org.hibernate.annotations.Immutable;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -17,8 +19,9 @@ public class DbRevision extends DbEntity {
     @Column(name = "number")
     private int number;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_created")
+    @Temporal(TemporalType.TIMESTAMP)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Date dateCreated;
 
     public int getId() {
