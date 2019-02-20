@@ -11,4 +11,8 @@ public interface CatalogService {
     Optional<List<AndroidItemDto>> getNewItems();
 
     Optional<List<CatalogItem>> getAllItems();
+
+    Integer getRevision();
+
+    void updateRevision();
 }

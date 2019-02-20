@@ -25,6 +25,8 @@ public class ResponseDto implements Serializable {
     private String status;
     @JsonProperty("errors")
     private List<ErrorDto> errors = null;
+    @JsonProperty("revision")
+    private int revision;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = 6906549723676220107L;
@@ -33,6 +35,7 @@ public class ResponseDto implements Serializable {
     public DataDto getData() {
         return data;
     }
+
 
     @JsonProperty("data")
     public void setData(DataDto data) {
@@ -67,5 +70,13 @@ public class ResponseDto implements Serializable {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public int getRevision() {
+        return revision;
+    }
+
+    public void setRevision(int revision) {
+        this.revision = revision;
     }
 }
