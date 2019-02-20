@@ -51,6 +51,7 @@ public class CatalogItemController {
             dataDto.setItems(items);
             responseDto.setErrors(errors);
             responseDto.setData(dataDto);
+            responseDto.setRevision(catalogService.getRevision());
             logger.debug("Formed message " + items.toString());
             return ResponseEntity
                     .ok()

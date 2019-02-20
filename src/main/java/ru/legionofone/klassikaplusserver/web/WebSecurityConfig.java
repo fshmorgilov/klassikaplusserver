@@ -21,28 +21,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .authorizeRequests()
                 .antMatchers("/catalog").permitAll()
-                .antMatchers("/login*").permitAll()
+                .antMatchers("/revision").permitAll()
+                .antMatchers("/", "/greeting").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/catalog/novelties").permitAll()
+                .antMatchers("/catalog/novelties/*").permitAll()
             .anyRequest().authenticated()
+                .antMatchers("/admin").hasRole("ADMIN")
         .and()
             .formLogin()
                 .loginPage("/login")
+                .successForwardUrl("/admin")
                 .permitAll()
-                .defaultSuccessUrl("/homepage.html", true)
-//        .failureUrl("login.html?error=true"); todo Сделать нормальную страничку.
+//        .failureUrl("login.html?error=true")
         .and()
             .logout()
                 .logoutUrl("/perform_logout")
                 .permitAll()
-                .logoutSuccessUrl("/hello")
+                .logoutSuccessUrl("/greeting")
                 .deleteCookies("JSESSIONID") // FIXME: 2/12/2019 Ну прям хз
         .and()
             .httpBasic(); // TODO: 2/12/2019 just commit
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Bean
     @Override
@@ -51,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
              User.withDefaultPasswordEncoder()
                 .username("user")
                 .password("password")
-                .roles("USER")
+                .roles("ADMIN")
                 .build();
 
         return new InMemoryUserDetailsManager(user);

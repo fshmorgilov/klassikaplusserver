@@ -35,4 +35,14 @@ public class CatalogServiceImpl implements CatalogService {
         // TODO: 1/29/2019 TBI
         return Optional.empty();
     }
+
+    @Override
+    public Integer getRevision() {
+        return catalogRepository.getRevision();
+    }
+
+    @Override
+    public void updateRevision() {
+        catalogRepository.updateRevision();
+    }
 }

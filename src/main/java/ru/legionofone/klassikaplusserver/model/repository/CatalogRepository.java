@@ -81,8 +81,7 @@ public class CatalogRepository {
             revision = dbRevisionDao.findAll()
                     .stream()
                     .map(DbRevision::getId)
-                    .sorted()
-                    .findFirst()
+                    .max(Integer::compare)
                     .orElse(1);
         }
         logger.info("Current revision : " + revision);
