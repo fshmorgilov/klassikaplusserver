@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.legionofone.klassikaplusserver.service.CatalogService;
-import ru.legionofone.klassikaplusserver.web.dto.provided.AndroidItemDto;
-import ru.legionofone.klassikaplusserver.web.dto.provided.DataDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.DataDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.ErrorDto;
-import ru.legionofone.klassikaplusserver.web.dto.provided.ResponseDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.ResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;

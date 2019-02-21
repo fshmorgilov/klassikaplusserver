@@ -1,5 +1,6 @@
 package ru.legionofone.klassikaplusserver.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.legionofone.klassikaplusserver.service.CatalogService;
+import ru.legionofone.klassikaplusserver.web.dto.provided.revision.ResponseDto;
+
+import java.util.ArrayList;
 
 @RestController("revision")
 public class RevisionController {
@@ -21,10 +25,15 @@ public class RevisionController {
         this.catalog = service;
     }
 
-    @GetMapping("get_revision")
-    public Integer getCurrentRevision() {
+    @GetMapping
+    public ResponseEntity getCurrentRevision() {
         logger.info("Providing revision number");
-        return catalog.getRevision();
+        ObjectMapper mapper = new ObjectMapper();
+        ResponseDto dto = new ResponseDto();
+        dto.setData(catalog.getRevision());
+        dto.setStatus("OK");
+        dto.setErrors(new ArrayList<>());
+        return ResponseEntity.ok(mapper.convertValue(dto, ResponseDto.class));
     }
 
 

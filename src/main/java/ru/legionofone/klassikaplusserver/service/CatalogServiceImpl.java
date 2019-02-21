@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.legionofone.klassikaplusserver.model.domain.CatalogItem;
 import ru.legionofone.klassikaplusserver.model.repository.CatalogRepository;
-import ru.legionofone.klassikaplusserver.web.dto.provided.AndroidItemDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 
 import java.util.List;
 import java.util.Optional;

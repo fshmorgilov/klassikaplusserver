@@ -2,7 +2,7 @@ package ru.legionofone.klassikaplusserver.model.mappers;
 
 import ru.legionofone.klassikaplusserver.model.mappers.base.Mapping;
 import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
-import ru.legionofone.klassikaplusserver.web.dto.provided.AndroidItemDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 
 public class DaoToDtoMapper extends Mapping<DbItem, AndroidItemDto> {
     @Override
