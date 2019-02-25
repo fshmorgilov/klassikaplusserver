@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "14"
 })
 @Deprecated
+// TODO: 2/21/2019 выпилить
 public class SizeDto implements Serializable {
 
     @JsonProperty("4")
@@ -51,7 +52,7 @@ public class SizeDto implements Serializable {
     @JsonProperty("14")
     private String _14;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
     private final static long serialVersionUID = -549258516369185385L;
 
     @JsonProperty("4")

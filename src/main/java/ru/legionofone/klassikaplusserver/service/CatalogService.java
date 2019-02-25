@@ -1,7 +1,7 @@
 package ru.legionofone.klassikaplusserver.service;
 
 import ru.legionofone.klassikaplusserver.model.domain.CatalogItem;
-import ru.legionofone.klassikaplusserver.web.dto.provided.AndroidItemDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 
 import java.util.List;
 import java.util.Optional;

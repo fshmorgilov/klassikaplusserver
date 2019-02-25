@@ -14,7 +14,7 @@ import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
 import ru.legionofone.klassikaplusserver.model.persistance.entities.DbRevision;
 import ru.legionofone.klassikaplusserver.web.controller.CatalogItemReceiver;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.ItemDto;
-import ru.legionofone.klassikaplusserver.web.dto.provided.AndroidItemDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 
 import java.util.List;
 import java.util.concurrent.Executor;

@@ -1,15 +1,12 @@
-package ru.legionofone.klassikaplusserver.web.dto.provided;
+package ru.legionofone.klassikaplusserver.web.dto.provided.revision;
+
+import com.fasterxml.jackson.annotation.*;
+import ru.legionofone.klassikaplusserver.web.dto.provided.ErrorDto;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -20,25 +17,22 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class ResponseDto implements Serializable {
 
     @JsonProperty("data")
-    private DataDto data;
+    private Integer data;
     @JsonProperty("status")
     private String status;
     @JsonProperty("errors")
     private List<ErrorDto> errors = null;
-    @JsonProperty("revision")
-    private int revision;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = 6906549723676220107L;
 
     @JsonProperty("data")
-    public DataDto getData() {
+    public Integer getData() {
         return data;
     }
 
-
     @JsonProperty("data")
-    public void setData(DataDto data) {
+    public void setData(Integer data) {
         this.data = data;
     }
 
@@ -70,13 +64,5 @@ public class ResponseDto implements Serializable {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
-    }
-
-    public int getRevision() {
-        return revision;
-    }
-
-    public void setRevision(int revision) {
-        this.revision = revision;
     }
 }

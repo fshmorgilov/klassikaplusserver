@@ -27,6 +27,5 @@ public class StockItemUpdateService {
         logger.info("Beginning routine procedure updating items");
             repository.updateCatalogItems();
             logger.info("Finished updating items");
-        // TODO: 1/14/2019 Make concurrent
     }
 }

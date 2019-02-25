@@ -17,15 +17,14 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+// TODO: 2/21/2019 Поправить права, подтсавить сертификат
     http
         .authorizeRequests()
                 .antMatchers("/catalog").permitAll()
-                .antMatchers("/revision").permitAll()
                 .antMatchers("/", "/greeting").permitAll()
-                .antMatchers("/login").permitAll()
                 .antMatchers("/catalog/novelties").permitAll()
                 .antMatchers("/catalog/novelties/*").permitAll()
+                .antMatchers("/revision").permitAll()
             .anyRequest().authenticated()
                 .antMatchers("/admin").hasRole("ADMIN")
         .and()
@@ -43,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
             .httpBasic(); // TODO: 2/12/2019 just commit
     }
+// TODO: 2/21/2019 запилить encoder
 
 //    @Bean
 //    public PasswordEncoder passwordEncoder() {
@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails user =
              User.withDefaultPasswordEncoder()
                 .username("user")
-                .password("password")
+                .password("password") // FIXME: 2/21/2019 поментья логин и пароль
                 .roles("ADMIN")
                 .build();
 
