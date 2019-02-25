@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ItemDto {
@@ -42,7 +43,7 @@ public class ItemDto {
     private Object oldPrice;
     @JsonProperty("country")
     private String country;
-//    @JsonProperty("sostav")
+    //    @JsonProperty("sostav")
 //    private CompositionDto composition;
 //    @JsonProperty("size")
 //    private SizeDto size;
@@ -50,7 +51,7 @@ public class ItemDto {
     private String brand;
     @JsonProperty("number")
     private String number;
-//    @JsonProperty("style")
+    //    @JsonProperty("style")
 //    private StyleDto style;
     @JsonProperty("articul")
     private String articul;
@@ -65,11 +66,11 @@ public class ItemDto {
     @JsonProperty("image")
     private String image;
     @JsonProperty("photogallery")
-    private PhotogalleryDto photogallery;
+    private List<PhotogalleryDto> photogallery;
     @JsonProperty("child_pages")
     private String childPages;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
     private final static long serialVersionUID = -5756738634783614208L;
 
     @JsonProperty("id")
@@ -342,15 +343,15 @@ public class ItemDto {
         this.image = image;
     }
 
-//    @JsonProperty("photogallery")
-//    public PhotogalleryDto getPhotogallery() {
-//        return photogallery;
-//    }
+    @JsonProperty("photogallery")
+    public List<PhotogalleryDto>getPhotogallery() {
+        return photogallery;
+    }
 
-//    @JsonProperty("photogallery")
-//    public void setPhotogallery(PhotogalleryDto photogallery) {
-//        this.photogallery = photogallery;
-//    }
+    @JsonProperty("photogallery")
+    public void setPhotogallery(List<PhotogalleryDto> photogallery) {
+        this.photogallery = photogallery;
+    }
 
     @JsonProperty("child_pages")
     public String getChildPages() {

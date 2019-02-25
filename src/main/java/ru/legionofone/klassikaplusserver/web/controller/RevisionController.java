@@ -25,7 +25,7 @@ public class RevisionController {
         this.catalog = service;
     }
 
-    @GetMapping
+    @GetMapping("revision")
     public ResponseEntity getCurrentRevision() {
         logger.info("Providing revision number");
         ObjectMapper mapper = new ObjectMapper();

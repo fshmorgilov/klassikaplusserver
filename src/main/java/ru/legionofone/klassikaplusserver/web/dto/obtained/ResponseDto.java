@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "data"
 })
 @Deprecated
+// TODO: 2/21/2019 выпилить
 public class ResponseDto implements Serializable {
 
     @JsonProperty("data")

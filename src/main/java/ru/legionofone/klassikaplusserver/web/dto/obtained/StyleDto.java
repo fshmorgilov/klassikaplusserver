@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "470"
 })
 @Deprecated
+// TODO: 2/21/2019 выпилить
 public class StyleDto implements Serializable {
 
     @JsonProperty("468")
@@ -27,7 +28,7 @@ public class StyleDto implements Serializable {
     @JsonProperty("470")
     private String _470;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
     private final static long serialVersionUID = 38040843838610821L;
 
     @JsonProperty("468")

@@ -6,7 +6,6 @@ import java.io.Serializable;
 @Entity(name = "items")
 //@Table(name = "items")
 public class DbItem extends DbEntity implements Serializable{
-    //todo getter setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
@@ -30,7 +29,7 @@ public class DbItem extends DbEntity implements Serializable{
     private String descriptionLong;
     @Column(name = "page_alias")
     private String pageAlias;
-    @Column(name = "template") //todo шаблон отображения для сайта, возможно мне не нужен
+    @Column(name = "template")
     private String template;
     @Column(name = "menu_item_name")
     private String menuItemName; //Пункт Меню
