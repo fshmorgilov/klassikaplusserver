@@ -3,6 +3,8 @@ package ru.legionofone.klassikaplusserver.model.mappers;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.StringUtils;
 import ru.legionofone.klassikaplusserver.model.mappers.base.Mapping;
 import ru.legionofone.klassikaplusserver.model.persistance.entities.DbItem;
@@ -13,6 +15,9 @@ import java.util.Optional;
 public class ForeignDtoToDaoMapper extends Mapping<ItemDto, DbItem> {
 
     private static final Logger logger = LoggerFactory.getLogger(ForeignDtoToDaoMapper.class);
+
+    // FIXME: 2/25/2019 refactor to @Value
+    private static String siteUrl = "https://klassikaplus.ru/";
 
     @Override
     public DbItem map(ItemDto itemDto) {
@@ -30,8 +35,7 @@ public class ForeignDtoToDaoMapper extends Mapping<ItemDto, DbItem> {
         item.setNovelty(noveltyParcel(cleanString(itemDto
                 .getNew()))
                 .orElse(false));
-        item.setPageAlias(itemDto.getPagetitle());
-//todo конвертер для галлереи изображений
+        item.setPageAlias(siteUrl + itemDto.getUri());
 
         logger.debug("Mapped :" + item.toString());
         return item;
