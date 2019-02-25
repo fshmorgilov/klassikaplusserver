@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
                 .logoutUrl("/perform_logout")
                 .permitAll()
-                .logoutSuccessUrl("/greeting")
+                .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID") // FIXME: 2/12/2019 Ну прям хз
         .and()
             .httpBasic(); // TODO: 2/12/2019 just commit
