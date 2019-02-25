@@ -26,7 +26,6 @@ public class CatalogItemReceiver {
 
     private static final Logger logger = LoggerFactory.getLogger(CatalogItemReceiver.class);
 
-    // FIXME: 2/25/2019 refactor to value
     @Value("${site.url.collection.api}")
     private String URL;
     @Value("${site.mock.url}")
@@ -50,7 +49,6 @@ public class CatalogItemReceiver {
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 logger.info("Response: " + response.message() + "\nheaders " + response.headers().toString());
-//                logger.debug("Response :" + response.body().string());
                 final String[] responseBody = new String[1];
                 Optional.ofNullable(response.body().string())
                         .ifPresentOrElse(
