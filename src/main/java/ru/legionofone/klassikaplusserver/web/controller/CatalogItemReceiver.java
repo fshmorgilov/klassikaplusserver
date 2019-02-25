@@ -27,6 +27,7 @@ public class CatalogItemReceiver {
 
     private final String URL = "https://klassikaplus.ru/loadsget/?parent=3&pub=1&ping="
             + provideCurrentDate();
+    // FIXME: 2/25/2019 refactor to value
     private final String URL_MOCK = "https://8419c0f2-6cb4-43ae-98fe-3f1952f6300d.mock.pstmn.io/collection";
     private final String X_API_KEY = "x-api-key";
     private final String X_API_KEY_VALUE = "1bcb4719acff4e34802a223217b84177";
