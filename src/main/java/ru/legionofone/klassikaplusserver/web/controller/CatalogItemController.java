@@ -65,7 +65,7 @@ public class CatalogItemController {
     }
 
     @GetMapping(path = "get_stock")
-    public ResponseEntity getStock(@RequestParam @Nullable String deviceId) {
+    public ResponseEntity getStock(@RequestParam(required = false) @Nullable String deviceId) {
         logger.info("NOVELTY Request from client: " + deviceId);
         return ResponseEntity
                 .notFound()
@@ -79,7 +79,7 @@ public class CatalogItemController {
     }
 
     @GetMapping(path = "get_categories")
-    public ResponseEntity getCategories(@RequestParam @NonNull String category) {
+    public ResponseEntity getCategories(@RequestParam(required = false) @Nullable String deviceId)  {
         final ObjectMapper toJsonObjectMapper = new ObjectMapper();
         List<String> categories = catalogService.getCategories();
         if (categories != null && !categories.isEmpty()) {
