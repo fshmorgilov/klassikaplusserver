@@ -53,6 +53,8 @@ public class AndroidItemDto implements Serializable {
     private boolean discountable;
     @JsonProperty("price")
     private double price;
+    @JsonProperty("category")
+    private String category;
     @JsonProperty("photos")
     private List<PhotoDto> photos = null;
     @JsonIgnore
@@ -209,4 +211,13 @@ public class AndroidItemDto implements Serializable {
         this.additionalProperties.put(name, value);
     }
 
+    @JsonProperty("category")
+    public String getCategory() {
+        return category;
+    }
+
+    @JsonProperty("category")
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }

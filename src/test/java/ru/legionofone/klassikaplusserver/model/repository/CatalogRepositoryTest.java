@@ -52,15 +52,15 @@ public class CatalogRepositoryTest {
 
     @Test
     public void getRevision() {
-        revNumber = repository.getRevision();
+        revNumber = repository.refreshRevision();
         assertEquals(Integer.valueOf(1), revNumber);
     }
 
     @Test
     public void updateRevision() {
-        repository.getRevision();
+        repository.refreshRevision();
         repository.updateRevision();
-        revNumber = repository.getRevision();
+        revNumber = repository.refreshRevision();
         assertEquals(revNumber, Integer.valueOf(2));
     }
 

@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity(name = "items")
 //@Table(name = "items")
-public class DbItem extends DbEntity implements Serializable{
+public class DbItem extends DbEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
@@ -21,43 +21,19 @@ public class DbItem extends DbEntity implements Serializable{
     private String annotation;
     @Column(name = "vendor_code") //артикул
     private String vendorCode;
-    @Column(name = "shown_on_main") //показать на главной
-    private Boolean shownOnMain;
     @Column(name = "novelty")
     private Boolean novelty;
     @Column(name = "description_long") //содержимое
     private String descriptionLong;
     @Column(name = "page_alias")
     private String pageAlias;
-    @Column(name = "template")
-    private String template;
-    @Column(name = "menu_item_name")
-    private String menuItemName; //Пункт Меню
-    @Column(name = "related_link")
-    private String relatedLink; // Сторонняя ссылка
-    @Column(name = "dont_show")
-    private Boolean dontShowInMenu; //Не показывать в меню
-    @Column(name = "published")
-    private Boolean published;
-    @Column(name = "keywords")
-    private String keywords;
+    @Column(name = "category")
+    private String category;
 
-    //    ////------additional_fields-----------////
-//    //photo
     @Column(name = "icon")
     private String icon;
     @Column(name = "photo")
     private String photo;
-//
-//    //Characteristics
-//    @Ignore
-//    private String countryManufacturer; //Страна производитель
-//    @Ignore
-//    private String composition; //хз че с этим делать
-//    @Ignore
-//    private String manufacturer; //производитель
-//    @Ignore
-//    private List<String> styleCollection;
 
     //Pricing
     @Column(name = "base_price")
@@ -66,6 +42,22 @@ public class DbItem extends DbEntity implements Serializable{
     private double discount;
     @Column(name = "price")
     private double price;
+
+    //Irrelevant for now
+    @Column(name = "shown_on_main") //показать на главной
+    private Boolean shownOnMain;
+    @Column(name = "dont_show")
+    private Boolean dontShowInMenu; //Не показывать в меню
+    @Column(name = "published")
+    private Boolean published;
+    @Column(name = "keywords")
+    private String keywords;
+    @Column(name = "template")
+    private String template;
+    @Column(name = "menu_item_name")
+    private String menuItemName; //Пункт Меню
+    @Column(name = "related_link")
+    private String relatedLink; // Сторонняя ссылка
 
     @Override
     public String toString() {
@@ -258,4 +250,11 @@ public class DbItem extends DbEntity implements Serializable{
         return "items";
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }

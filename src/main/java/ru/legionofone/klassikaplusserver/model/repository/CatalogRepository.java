@@ -16,6 +16,7 @@ import ru.legionofone.klassikaplusserver.web.controller.CatalogItemReceiver;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.ItemDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -32,9 +33,9 @@ public class CatalogRepository {
     private final IGenericDao<DbRevision> dbRevisionDao;
     private final CatalogItemReceiver receiver;
     private final DaoToDomainMapper toDomainMapper = new DaoToDomainMapper();
-    private final DaoToDtoMapper daoToDtoMapper = new DaoToDtoMapper();
     // TODO: 2/15/2019 refactor
     private final Executor exec = Executors.newFixedThreadPool(4);
+    private static final List<String> categories = new ArrayList<>();
 
     private Integer revision;
 
@@ -45,7 +46,24 @@ public class CatalogRepository {
         this.dbItemDao = dbItemDao;
         this.receiver = receiver;
         this.dbRevisionDao = dbRevisionDao;
-        getRevision();
+        refreshRevision();
+        refreshCategories();
+    }
+
+    public void refreshCategories() {
+        exec.execute(() -> {
+            categories.clear();
+            categories.addAll(dbItemDao.findAll().stream()
+                    .map(DbItem::getCategory)
+                    .distinct()
+                    .collect(Collectors.toList()));
+            logger.info("Categories updated\n Result:");
+            categories.forEach(logger::info);
+        });
+    }
+
+    public synchronized List<String> provideCategories() {
+        return categories;
     }
 
     public void updateCatalogItems() {
@@ -59,7 +77,10 @@ public class CatalogRepository {
                                             .stream()
                                             .peek(itemDto -> logger.debug(itemDto.getDescription()))
                                             .map(dtoToDaoMapper::map)
-                                            .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
+                                            .peek(dbItem -> {
+                                                if (!categoryDto.getPagetitle().isEmpty())
+                                                    dbItem.setCategory(categoryDto.getPagetitle());
+                                            })
                                             // TODO: 1/14/2019 Переделать в одну транзакцию
                                             .forEach(dbItemDao::create));
                                     logger.info("Successfully obtained dataset");
@@ -69,14 +90,14 @@ public class CatalogRepository {
     }
 
     public List<AndroidItemDto> provideCatalogNovelties() {
+        final DaoToDtoMapper daoToDtoMapper = new DaoToDtoMapper();
         return dbItemDao.findAll().stream()
                 .filter(DbItem::getNovelty)
                 .map(daoToDtoMapper::map)
                 .collect(Collectors.toList());
     }
 
-
-    public synchronized Integer getRevision() {
+    public synchronized Integer refreshRevision() {
         if (revision == null) {
             revision = dbRevisionDao.findAll()
                     .stream()

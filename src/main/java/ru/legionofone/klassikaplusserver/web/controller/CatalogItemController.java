@@ -6,15 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.lang.NonNull;
+import org.springframework.web.bind.annotation.*;
 import ru.legionofone.klassikaplusserver.service.CatalogService;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.DataDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.ErrorDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.ResponseDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.category.CategoryDataDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.category.CategoryResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,5 +70,29 @@ public class CatalogItemController {
         return ResponseEntity
                 .notFound()
                 .build();
+    }
+
+    @GetMapping(path = "{category}")
+    public ResponseEntity getItemsByCategory(@PathVariable @NonNull String category) {
+        return ResponseEntity.badRequest()
+                .build();
+    }
+
+    @GetMapping(path = "get_categories")
+    public ResponseEntity getCategories(@RequestParam @NonNull String category) {
+        final ObjectMapper toJsonObjectMapper = new ObjectMapper();
+        List<String> categories = catalogService.getCategories();
+        if (categories != null && !categories.isEmpty()) {
+            CategoryResponseDto dto = new CategoryResponseDto();
+            CategoryDataDto dataDto = new CategoryDataDto();
+            dataDto.setItems(categories);
+            dto.setData(dataDto);
+            dto.setErrors(new ArrayList<>());
+            dto.setStatus("Ok");
+            dto.setRevision(catalogService.getRevision());
+            return ResponseEntity.ok().body(toJsonObjectMapper.convertValue(dto, CategoryResponseDto.class));
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 }

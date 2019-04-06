@@ -15,4 +15,6 @@ public interface CatalogService {
     Integer getRevision();
 
     void updateRevision();
+
+    List<String> getCategories();
 }

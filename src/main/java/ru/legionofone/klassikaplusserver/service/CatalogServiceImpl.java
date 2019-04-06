@@ -38,11 +38,16 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public Integer getRevision() {
-        return catalogRepository.getRevision();
+        return catalogRepository.refreshRevision();
     }
 
     @Override
     public void updateRevision() {
         catalogRepository.updateRevision();
+    }
+
+    @Override
+    public List<String> getCategories() {
+        return catalogRepository.provideCategories();
     }
 }
