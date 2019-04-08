@@ -23,6 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/catalog/novelties").permitAll()
                 .antMatchers("/catalog/novelties/*").permitAll()
                 .antMatchers("/catalog/get_categories").permitAll()
+                .antMatchers("/catalog/{category}/**").permitAll()
                 .antMatchers("/revision").permitAll()
             .anyRequest().authenticated()
                 .antMatchers("/admin").hasRole("ADMIN")
