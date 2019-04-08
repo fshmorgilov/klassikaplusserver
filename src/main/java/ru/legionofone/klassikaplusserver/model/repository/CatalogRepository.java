@@ -82,6 +82,7 @@ public class CatalogRepository {
                                                     dbItem.setCategory(categoryDto.getPagetitle());
                                             })
                                             // TODO: 1/14/2019 Переделать в одну транзакцию
+                                            //todo обновить категории после скачивания
                                             .forEach(dbItemDao::create));
                                     logger.info("Successfully obtained dataset");
                                 },

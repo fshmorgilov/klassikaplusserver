@@ -16,6 +16,8 @@ import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.ResponseDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.category.CategoryDataDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.category.CategoryResponseDto;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +78,8 @@ public class CatalogItemController {
     public ResponseEntity getItemsByCategory(@PathVariable @NonNull String category) {
         final var toJsonObjectMapper = new ObjectMapper();
         final var errors = new ArrayList<ErrorDto>();
-        var itemOptionals = catalogService.provideItemsByCategory(category);
+        var categoryDecoded = URLDecoder.decode(category, StandardCharsets.UTF_8);
+        var itemOptionals = catalogService.provideItemsByCategory(categoryDecoded);
         var dto = new ResponseDto();
         var data = new DataDto();
         if (itemOptionals.isPresent()) {
@@ -84,16 +87,14 @@ public class CatalogItemController {
             if (!items.isEmpty()) {
                 data.setItems(items);
                 dto.setErrors(errors);
-                dto.setStatus("Ok");
+                dto.setStatus(OK_STATUS);
                 dto.setData(data);
                 dto.setRevision(catalogService.getRevision());
                 return ResponseEntity
                         .ok()
                         .body(toJsonObjectMapper.convertValue(dto, ResponseDto.class));
             } else {
-                var error = new ErrorDto();
-                error.setCode(1000); // TODO: 4/8/2019 справочники кодов
-                error.setDescription("Товаров данной категории не найдено");
+                var error = makeError(1000, "Товаров данной категории не найдено");
                 errors.add(error);
                 dto = makeErrorResponse(errors, data);
                 return ResponseEntity
@@ -101,14 +102,20 @@ public class CatalogItemController {
                         .body(toJsonObjectMapper.convertValue(dto, ResponseDto.class));
             }
         } else {
-            var error = new ErrorDto();
-            error.setCode(1001); // TODO: 4/8/2019 справочники кодов
-            error.setDescription("Категория товаров не действительна");
+            var error = makeError(1001, "Категория товаров не действительна");
+            errors.add(error);
             dto = makeErrorResponse(errors, data);
             return ResponseEntity
                     .ok()
                     .body(toJsonObjectMapper.convertValue(dto, ResponseDto.class));
         }
+    }
+
+    private ErrorDto makeError(int code, String description) {
+        var error = new ErrorDto();
+        error.setCode(code); // TODO: 4/8/2019 справочники кодов
+        error.setDescription(description);
+        return error;
     }
 
     private ResponseDto makeErrorResponse(ArrayList<ErrorDto> errors, DataDto data) {
@@ -131,7 +138,7 @@ public class CatalogItemController {
             dataDto.setItems(categories);
             dto.setData(dataDto);
             dto.setErrors(new ArrayList<>());
-            dto.setStatus("Ok");
+            dto.setStatus(OK_STATUS);
             dto.setRevision(catalogService.getRevision());
             return ResponseEntity
                     .ok()
