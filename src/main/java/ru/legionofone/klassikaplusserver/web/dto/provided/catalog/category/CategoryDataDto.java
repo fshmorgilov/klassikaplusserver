@@ -1,11 +1,9 @@
 package ru.legionofone.klassikaplusserver.web.dto.provided.catalog.category;
 
 import com.fasterxml.jackson.annotation.*;
-import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,18 +14,18 @@ import java.util.Map;
 public class CategoryDataDto implements Serializable {
 
     @JsonProperty("categories")
-    private List<String> categories= null;
+    private Map<Integer, String> categories = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = 9010141155132269969L;
 
     @JsonProperty("categories")
-    public List<String> getItems() {
+    public Map<Integer, String> getItems() {
         return categories;
     }
 
     @JsonProperty("categories")
-    public void setItems(List<String> items) {
+    public void setItems(Map<Integer, String> items) {
         this.categories = items;
     }
 

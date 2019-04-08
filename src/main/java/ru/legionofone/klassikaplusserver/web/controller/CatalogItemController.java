@@ -20,6 +20,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("catalog")
@@ -47,10 +48,11 @@ public class CatalogItemController {
                 .forEach(logger::debug);
         if (!items.isEmpty()) {
             ResponseDto responseDto = new ResponseDto();
-            responseDto.setStatus(OK_STATUS);
             DataDto dataDto = new DataDto();
             List<ErrorDto> errors = new ArrayList<>();
             dataDto.setItems(items);
+            // TODO: 4/8/2019 refactor to makeOKresponse
+            responseDto.setStatus(OK_STATUS);
             responseDto.setErrors(errors);
             responseDto.setData(dataDto);
             responseDto.setRevision(catalogService.getRevision());
@@ -74,16 +76,15 @@ public class CatalogItemController {
                 .build();
     }
 
-    @GetMapping(path = "{category}")
-    public ResponseEntity getItemsByCategory(@PathVariable @NonNull String category) {
+    @GetMapping(path = "{categoryId}")
+    public ResponseEntity getItemsByCategory(@PathVariable @NonNull Integer categoryId) {
         final var toJsonObjectMapper = new ObjectMapper();
         final var errors = new ArrayList<ErrorDto>();
-        var categoryDecoded = URLDecoder.decode(category, StandardCharsets.UTF_8);
-        var itemOptionals = catalogService.provideItemsByCategory(categoryDecoded);
+        var itemOptionals = catalogService.provideItemsByCategory(categoryId);
         var dto = new ResponseDto();
         var data = new DataDto();
         if (itemOptionals.isPresent()) {
-            var items = catalogService.provideItemsByCategory(category).orElse(new ArrayList<>());
+            var items = itemOptionals.orElse(new ArrayList<>());
             if (!items.isEmpty()) {
                 data.setItems(items);
                 dto.setErrors(errors);
@@ -131,7 +132,7 @@ public class CatalogItemController {
     @GetMapping(path = "get_categories")
     public ResponseEntity getCategories(@RequestParam(required = false) @Nullable String deviceId) {
         final ObjectMapper toJsonObjectMapper = new ObjectMapper();
-        List<String> categories = catalogService.getCategories();
+        var categories = catalogService.getCategories();
         if (categories != null && !categories.isEmpty()) {
             CategoryResponseDto dto = new CategoryResponseDto();
             CategoryDataDto dataDto = new CategoryDataDto();

@@ -17,7 +17,9 @@ import ru.legionofone.klassikaplusserver.web.dto.obtained.ItemDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -32,10 +34,9 @@ public class CatalogRepository {
     private final IGenericDao<DbItem> dbItemDao;
     private final IGenericDao<DbRevision> dbRevisionDao;
     private final CatalogItemReceiver receiver;
-    private final DaoToDomainMapper toDomainMapper = new DaoToDomainMapper();
     // TODO: 2/15/2019 refactor
     private final Executor exec = Executors.newFixedThreadPool(4);
-    private static final List<String> categories = new ArrayList<>();
+    private static final Map<Integer, String> categories = new HashMap<>();
 
     private Integer revision;
 
@@ -52,17 +53,20 @@ public class CatalogRepository {
 
     public void refreshCategories() {
         exec.execute(() -> {
-            categories.clear();
-            categories.addAll(dbItemDao.findAll().stream()
+            // TODO: 4/8/2019 persist categories
+            var lastKey = categories.keySet().stream().max(Integer::compareTo).orElse(0);
+            dbItemDao.findAll().stream()
                     .map(DbItem::getCategory)
                     .distinct()
-                    .collect(Collectors.toList()));
+                    .filter(o -> !categories.values().contains(o))
+                    .forEach(o -> categories.put(lastKey + 1, o));
             logger.info("Categories updated\n Result:");
-            categories.forEach(logger::info);
+            categories.values().forEach(logger::info);
+
         });
     }
 
-    public synchronized List<String> provideCategories() {
+    public synchronized Map<Integer,String> provideCategories() {
         return categories;
     }
 
@@ -120,8 +124,9 @@ public class CatalogRepository {
         });
     }
 
-    public List<AndroidItemDto> provideItemsByCategory(String category) {
+    public List<AndroidItemDto> provideItemsByCategory(Integer categoryId) {
         final DaoToDtoMapper daoToDtoMapper = new DaoToDtoMapper();
+        var category = categories.get(categoryId);
         return dbItemDao.findAll().stream()
                 .filter(dbItem -> dbItem.getCategory().equals(category))
                 .map(daoToDtoMapper::map)
