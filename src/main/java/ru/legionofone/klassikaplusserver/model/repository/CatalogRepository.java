@@ -118,4 +118,12 @@ public class CatalogRepository {
             dbRevisionDao.update(rev);
         });
     }
+
+    public List<AndroidItemDto> provideItemsByCategory(String category) {
+        final DaoToDtoMapper daoToDtoMapper = new DaoToDtoMapper();
+        return dbItemDao.findAll().stream()
+                .filter(dbItem -> dbItem.getCategory().equals(category))
+                .map(daoToDtoMapper::map)
+                .collect(Collectors.toList());
+    }
 }

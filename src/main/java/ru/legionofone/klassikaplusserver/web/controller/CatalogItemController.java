@@ -74,12 +74,55 @@ public class CatalogItemController {
 
     @GetMapping(path = "{category}")
     public ResponseEntity getItemsByCategory(@PathVariable @NonNull String category) {
-        return ResponseEntity.badRequest()
-                .build();
+        final var toJsonObjectMapper = new ObjectMapper();
+        final var errors = new ArrayList<ErrorDto>();
+        var itemOptionals = catalogService.provideItemsByCategory(category);
+        var dto = new ResponseDto();
+        var data = new DataDto();
+        if (itemOptionals.isPresent()) {
+            var items = catalogService.provideItemsByCategory(category).orElse(new ArrayList<>());
+            if (!items.isEmpty()) {
+                data.setItems(items);
+                dto.setErrors(errors);
+                dto.setStatus("Ok");
+                dto.setData(data);
+                dto.setRevision(catalogService.getRevision());
+                return ResponseEntity
+                        .ok()
+                        .body(toJsonObjectMapper.convertValue(dto, ResponseDto.class));
+            } else {
+                var error = new ErrorDto();
+                error.setCode(1000); // TODO: 4/8/2019 справочники кодов
+                error.setDescription("Товаров данной категории не найдено");
+                errors.add(error);
+                dto = makeErrorResponse(errors, data);
+                return ResponseEntity
+                        .ok()
+                        .body(toJsonObjectMapper.convertValue(dto, ResponseDto.class));
+            }
+        } else {
+            var error = new ErrorDto();
+            error.setCode(1001); // TODO: 4/8/2019 справочники кодов
+            error.setDescription("Категория товаров не действительна");
+            dto = makeErrorResponse(errors, data);
+            return ResponseEntity
+                    .ok()
+                    .body(toJsonObjectMapper.convertValue(dto, ResponseDto.class));
+        }
+    }
+
+    private ResponseDto makeErrorResponse(ArrayList<ErrorDto> errors, DataDto data) {
+        var dto = new ResponseDto();
+        errors.stream().map(ErrorDto::getDescription).forEach(logger::info);
+        dto.setStatus("Error");
+        dto.setData(data);
+        dto.setRevision(catalogService.getRevision());
+        dto.setErrors(errors);
+        return dto;
     }
 
     @GetMapping(path = "get_categories")
-    public ResponseEntity getCategories(@RequestParam(required = false) @Nullable String deviceId)  {
+    public ResponseEntity getCategories(@RequestParam(required = false) @Nullable String deviceId) {
         final ObjectMapper toJsonObjectMapper = new ObjectMapper();
         List<String> categories = catalogService.getCategories();
         if (categories != null && !categories.isEmpty()) {
@@ -90,9 +133,13 @@ public class CatalogItemController {
             dto.setErrors(new ArrayList<>());
             dto.setStatus("Ok");
             dto.setRevision(catalogService.getRevision());
-            return ResponseEntity.ok().body(toJsonObjectMapper.convertValue(dto, CategoryResponseDto.class));
+            return ResponseEntity
+                    .ok()
+                    .body(toJsonObjectMapper.convertValue(dto, CategoryResponseDto.class));
         } else {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity
+                    .noContent()
+                    .build();
         }
     }
 }

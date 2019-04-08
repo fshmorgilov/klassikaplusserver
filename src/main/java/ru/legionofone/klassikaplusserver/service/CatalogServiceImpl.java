@@ -31,12 +31,6 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Optional<List<CatalogItem>> getAllItems() {
-        // TODO: 1/29/2019 TBI
-        return Optional.empty();
-    }
-
-    @Override
     public Integer getRevision() {
         return catalogRepository.refreshRevision();
     }
@@ -49,5 +43,12 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public List<String> getCategories() {
         return catalogRepository.provideCategories();
+    }
+
+    @Override
+    public Optional<List<AndroidItemDto>> provideItemsByCategory(String category) {
+        if (!catalogRepository.provideCategories().contains(category)) return Optional.empty();
+        List<AndroidItemDto> items = catalogRepository.provideItemsByCategory(category);
+        return Optional.ofNullable(items);
     }
 }

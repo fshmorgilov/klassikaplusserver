@@ -10,7 +10,7 @@ public interface CatalogService {
 
     Optional<List<AndroidItemDto>> getNewItems();
 
-    Optional<List<CatalogItem>> getAllItems();
+    Optional<List<AndroidItemDto>> provideItemsByCategory(String category);
 
     Integer getRevision();
 
