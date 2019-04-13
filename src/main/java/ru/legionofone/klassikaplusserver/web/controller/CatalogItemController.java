@@ -51,7 +51,6 @@ public class CatalogItemController {
             DataDto dataDto = new DataDto();
             List<ErrorDto> errors = new ArrayList<>();
             dataDto.setItems(items);
-            // TODO: 4/8/2019 refactor to makeOKresponse
             responseDto.setStatus(OK_STATUS);
             responseDto.setErrors(errors);
             responseDto.setData(dataDto);

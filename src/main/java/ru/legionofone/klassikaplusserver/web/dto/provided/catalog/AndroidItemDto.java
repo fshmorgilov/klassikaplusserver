@@ -54,7 +54,7 @@ public class AndroidItemDto implements Serializable {
     @JsonProperty("price")
     private double price;
     @JsonProperty("category")
-    private String category;
+    private Integer category;
     @JsonProperty("photos")
     private List<PhotoDto> photos = null;
     @JsonIgnore
@@ -212,12 +212,12 @@ public class AndroidItemDto implements Serializable {
     }
 
     @JsonProperty("category")
-    public String getCategory() {
+    public Integer getCategory() {
         return category;
     }
 
     @JsonProperty("category")
-    public void setCategory(String category) {
+    public void setCategory(Integer category) {
         this.category = category;
     }
 }

@@ -54,9 +54,10 @@ public class CatalogRepository {
     public void refreshCategories() {
         exec.execute(() -> {
             // TODO: 4/8/2019 persist categories
-            var lastKey = categories.keySet().stream().max(Integer::compareTo).orElse(0);
+            var lastKey = provideCategoryesLastKey();
             dbItemDao.findAll().stream()
                     .map(DbItem::getCategory)
+                    //fixme беда с категориями
                     .distinct()
                     .filter(o -> !categories.values().contains(o))
                     .forEach(o -> categories.put(lastKey + 1, o));
@@ -66,7 +67,11 @@ public class CatalogRepository {
         });
     }
 
-    public synchronized Map<Integer,String> provideCategories() {
+    private Integer provideCategoryesLastKey(){
+        return categories.keySet().stream().max(Integer::compareTo).orElse(0);
+    }
+
+    public synchronized Map<Integer, String> provideCategories() {
         return categories;
     }
 
@@ -82,8 +87,19 @@ public class CatalogRepository {
                                             .peek(itemDto -> logger.debug(itemDto.getDescription()))
                                             .map(dtoToDaoMapper::map)
                                             .peek(dbItem -> {
-                                                if (!categoryDto.getPagetitle().isEmpty())
-                                                    dbItem.setCategory(categoryDto.getPagetitle());
+                                                if (!categoryDto.getPagetitle().isEmpty()) {
+                                                    var key = categories.entrySet().stream()
+                                                            .filter(entry -> categoryDto.getPagetitle()
+                                                                    .equals(entry.getValue()))
+                                                            .map(Map.Entry::getKey)
+                                                            .findFirst()
+                                                            .orElseGet(()-> {
+                                                                var newKey = provideCategoryesLastKey();
+                                                                categories.put(newKey, categoryDto.getPagetitle());
+                                                                return newKey;
+                                                            });
+                                                    dbItem.setCategory(key);
+                                                }
                                             })
                                             // TODO: 1/14/2019 Переделать в одну транзакцию
                                             //todo обновить категории после скачивания
@@ -126,9 +142,8 @@ public class CatalogRepository {
 
     public List<AndroidItemDto> provideItemsByCategory(Integer categoryId) {
         final DaoToDtoMapper daoToDtoMapper = new DaoToDtoMapper();
-        var category = categories.get(categoryId);
         return dbItemDao.findAll().stream()
-                .filter(dbItem -> dbItem.getCategory().equals(category))
+                .filter(dbItem -> dbItem.getCategory().equals(categoryId))
                 .map(daoToDtoMapper::map)
                 .collect(Collectors.toList());
     }
