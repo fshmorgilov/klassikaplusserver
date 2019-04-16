@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ru.legionofone.klassikaplusserver.model.mappers.DaoToDomainMapper;
 import ru.legionofone.klassikaplusserver.model.mappers.DaoToDtoMapper;
 import ru.legionofone.klassikaplusserver.model.mappers.ForeignDtoToDaoMapper;
 import ru.legionofone.klassikaplusserver.model.mappers.base.ListMapping;
@@ -16,7 +15,9 @@ import ru.legionofone.klassikaplusserver.web.controller.CatalogItemReceiver;
 import ru.legionofone.klassikaplusserver.web.dto.obtained.ItemDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -31,10 +32,8 @@ public class CatalogRepository {
     private final IGenericDao<DbItem> dbItemDao;
     private final IGenericDao<DbRevision> dbRevisionDao;
     private final CatalogItemReceiver receiver;
-    private final DaoToDomainMapper toDomainMapper = new DaoToDomainMapper();
-    private final DaoToDtoMapper daoToDtoMapper = new DaoToDtoMapper();
-    // TODO: 2/15/2019 refactor
     private final Executor exec = Executors.newFixedThreadPool(4);
+    private static volatile Map<Integer, String> categories = new HashMap<>();
 
     private Integer revision;
 
@@ -45,38 +44,75 @@ public class CatalogRepository {
         this.dbItemDao = dbItemDao;
         this.receiver = receiver;
         this.dbRevisionDao = dbRevisionDao;
-        getRevision();
+        refreshRevision();
+        refreshCategories();
+    }
+
+    public void refreshCategories() {
+            // TODO: 4/8/2019 persist categories
+            var lastKey = provideCategoriesLastKey();
+            dbItemDao.findAll().stream()
+                    .map(DbItem::getCategory)
+                    //fixme беда с категориями
+                    .distinct()
+                    .filter(o -> !categories.values().contains(o))
+                    .forEach(o -> categories.put(lastKey + 1, o));
+            logger.info("Categories updated\n Result:");
+            categories.values().forEach(logger::info);
+//        });
+    }
+
+    private Integer provideCategoriesLastKey() {
+        return categories.keySet().stream().max(Integer::compareTo).orElse(1);
+    }
+
+    public synchronized Map<Integer, String> provideCategories() {
+        return categories;
     }
 
     public void updateCatalogItems() {
-        exec.execute(() ->
-                receiver.provide()
-                        .ifPresentOrElse(
-                                categoryDtos -> {
-                                    dbItemDao.deleteAll();
-                                    categoryDtos.forEach(categoryDto -> categoryDto
-                                            .getChildPages()
-                                            .stream()
-                                            .peek(itemDto -> logger.debug(itemDto.getDescription()))
-                                            .map(dtoToDaoMapper::map)
-                                            .peek(dbItem -> logger.info("Parsed item : " + dbItem.getName()))
-                                            // TODO: 1/14/2019 Переделать в одну транзакцию
-                                            .forEach(dbItemDao::create));
-                                    logger.info("Successfully obtained dataset");
-                                },
-                                () -> logger.warn("Failed to obtain new dataset"))
+        exec.execute(() -> receiver.provide().ifPresentOrElse(
+                categoryDtos -> {
+                    dbItemDao.deleteAll();
+                    categoryDtos.forEach(categoryDto -> categoryDto
+                            .getChildPages()
+                            .stream()
+                            .peek(itemDto -> logger.debug(itemDto.getDescription()))
+                            .map(dtoToDaoMapper::map)
+                            .peek(dbItem -> {
+                                if (!categoryDto.getPagetitle().isEmpty()) {
+                                    var key = categories.entrySet().stream()
+                                            .filter(entry -> categoryDto.getPagetitle()
+                                                    .equals(entry.getValue()))
+                                            .map(Map.Entry::getKey)
+                                            .findFirst()
+                                            .orElseGet(() -> {
+                                                logger.info("New category found: " + categoryDto.getPagetitle());
+                                                var newKey = provideCategoriesLastKey() + 1;
+                                                categories.put(newKey, categoryDto.getPagetitle());
+                                                return newKey;
+                                            });
+                                    dbItem.setCategoryId(key);
+                                    dbItem.setCategory(categoryDto.getPagetitle());
+                                }
+                            })
+                            // TODO: 1/14/2019 Переделать в одну транзакцию
+                            .forEach(dbItemDao::create));
+                    logger.info("Successfully obtained dataset");
+                },
+                () -> logger.warn("Failed to obtain new dataset"))
         );
     }
 
     public List<AndroidItemDto> provideCatalogNovelties() {
+        final DaoToDtoMapper daoToDtoMapper = new DaoToDtoMapper();
         return dbItemDao.findAll().stream()
                 .filter(DbItem::getNovelty)
                 .map(daoToDtoMapper::map)
                 .collect(Collectors.toList());
     }
 
-
-    public synchronized Integer getRevision() {
+    public synchronized Integer refreshRevision() {
         if (revision == null) {
             revision = dbRevisionDao.findAll()
                     .stream()
@@ -96,5 +132,13 @@ public class CatalogRepository {
             rev.setNumber(revision);
             dbRevisionDao.update(rev);
         });
+    }
+
+    public List<AndroidItemDto> provideItemsByCategory(Integer categoryId) {
+        final DaoToDtoMapper daoToDtoMapper = new DaoToDtoMapper();
+        return dbItemDao.findAll().stream()
+                .filter(dbItem -> dbItem.getCategoryId().equals(categoryId))
+                .map(daoToDtoMapper::map)
+                .collect(Collectors.toList());
     }
 }

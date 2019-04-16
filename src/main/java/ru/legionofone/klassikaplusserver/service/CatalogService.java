@@ -4,15 +4,18 @@ import ru.legionofone.klassikaplusserver.model.domain.CatalogItem;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface CatalogService {
 
     Optional<List<AndroidItemDto>> getNewItems();
 
-    Optional<List<CatalogItem>> getAllItems();
+    Optional<List<AndroidItemDto>> provideItemsByCategory(Integer categoryId);
 
     Integer getRevision();
 
     void updateRevision();
+
+    Map<Integer, String> getCategories();
 }

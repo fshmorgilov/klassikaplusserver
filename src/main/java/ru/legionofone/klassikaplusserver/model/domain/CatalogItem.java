@@ -10,6 +10,7 @@ public class CatalogItem {
     private double price;
     private Map<Integer, String> gallery;
     private Boolean novelty;
+    private String category;
 
     public String getId() {
         return id;
@@ -65,5 +66,13 @@ public class CatalogItem {
 
     public void setNovelty(Boolean novelty) {
         this.novelty = novelty;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

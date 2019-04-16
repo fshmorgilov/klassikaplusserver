@@ -18,7 +18,7 @@ public class DataDto implements Serializable {
     private List<AndroidItemDto> items = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 9010141154147269969L;
+    private final static long serialVersionUID = 9010141155147269969L;
 
     @JsonProperty("items")
     public List<AndroidItemDto> getItems() {

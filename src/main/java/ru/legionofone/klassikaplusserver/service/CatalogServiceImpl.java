@@ -9,6 +9,7 @@ import ru.legionofone.klassikaplusserver.model.repository.CatalogRepository;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -31,18 +32,24 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Optional<List<CatalogItem>> getAllItems() {
-        // TODO: 1/29/2019 TBI
-        return Optional.empty();
-    }
-
-    @Override
     public Integer getRevision() {
-        return catalogRepository.getRevision();
+        return catalogRepository.refreshRevision();
     }
 
     @Override
     public void updateRevision() {
         catalogRepository.updateRevision();
+    }
+
+    @Override
+    public Map<Integer, String> getCategories() {
+        return catalogRepository.provideCategories();
+    }
+
+    @Override
+    public Optional<List<AndroidItemDto>> provideItemsByCategory(Integer categoryId) {
+        if (!catalogRepository.provideCategories().keySet().contains(categoryId)) return Optional.empty();
+        List<AndroidItemDto> items = catalogRepository.provideItemsByCategory(categoryId);
+        return Optional.ofNullable(items);
     }
 }

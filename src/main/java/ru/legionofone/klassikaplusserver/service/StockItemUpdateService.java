@@ -25,7 +25,13 @@ public class StockItemUpdateService {
     @Scheduled(fixedRate = 86400000)
     public void updateCatalogItem() {
         logger.info("Beginning routine procedure updating items");
-            repository.updateCatalogItems();
-            logger.info("Finished updating items");
+        repository.updateCatalogItems();
+        logger.info("Finished updating items");
+    }
+
+    @Scheduled(fixedRate = 86400000)
+    public void updateCatalogCategories() {
+        repository.refreshCategories();
+        logger.info("Categories updated");
     }
 }

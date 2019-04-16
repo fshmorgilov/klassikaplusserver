@@ -6,18 +6,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.lang.NonNull;
+import org.springframework.web.bind.annotation.*;
 import ru.legionofone.klassikaplusserver.service.CatalogService;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.AndroidItemDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.DataDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.ErrorDto;
 import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.ResponseDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.category.CategoryDataDto;
+import ru.legionofone.klassikaplusserver.web.dto.provided.catalog.category.CategoryResponseDto;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("catalog")
@@ -45,10 +48,10 @@ public class CatalogItemController {
                 .forEach(logger::debug);
         if (!items.isEmpty()) {
             ResponseDto responseDto = new ResponseDto();
-            responseDto.setStatus(OK_STATUS);
             DataDto dataDto = new DataDto();
             List<ErrorDto> errors = new ArrayList<>();
             dataDto.setItems(items);
+            responseDto.setStatus(OK_STATUS);
             responseDto.setErrors(errors);
             responseDto.setData(dataDto);
             responseDto.setRevision(catalogService.getRevision());
@@ -65,10 +68,85 @@ public class CatalogItemController {
     }
 
     @GetMapping(path = "get_stock")
-    public ResponseEntity getStock(@RequestParam @Nullable String deviceId) {
+    public ResponseEntity getStock(@RequestParam(required = false) @Nullable String deviceId) {
         logger.info("NOVELTY Request from client: " + deviceId);
         return ResponseEntity
                 .notFound()
                 .build();
+    }
+
+    @GetMapping(path = "{categoryId}")
+    public ResponseEntity getItemsByCategory(@PathVariable @NonNull Integer categoryId) {
+        final var toJsonObjectMapper = new ObjectMapper();
+        final var errors = new ArrayList<ErrorDto>();
+        var itemOptionals = catalogService.provideItemsByCategory(categoryId);
+        var dto = new ResponseDto();
+        var data = new DataDto();
+        if (itemOptionals.isPresent()) {
+            var items = itemOptionals.orElse(new ArrayList<>());
+            if (!items.isEmpty()) {
+                data.setItems(items);
+                dto.setErrors(errors);
+                dto.setStatus(OK_STATUS);
+                dto.setData(data);
+                dto.setRevision(catalogService.getRevision());
+                return ResponseEntity
+                        .ok()
+                        .body(toJsonObjectMapper.convertValue(dto, ResponseDto.class));
+            } else {
+                var error = makeError(1000, "Товаров данной категории не найдено");
+                errors.add(error);
+                dto = makeErrorResponse(errors, data);
+                return ResponseEntity
+                        .ok()
+                        .body(toJsonObjectMapper.convertValue(dto, ResponseDto.class));
+            }
+        } else {
+            var error = makeError(1001, "Категория товаров не действительна");
+            errors.add(error);
+            dto = makeErrorResponse(errors, data);
+            return ResponseEntity
+                    .ok()
+                    .body(toJsonObjectMapper.convertValue(dto, ResponseDto.class));
+        }
+    }
+
+    private ErrorDto makeError(int code, String description) {
+        var error = new ErrorDto();
+        error.setCode(code); // TODO: 4/8/2019 справочники кодов
+        error.setDescription(description);
+        return error;
+    }
+
+    private ResponseDto makeErrorResponse(ArrayList<ErrorDto> errors, DataDto data) {
+        var dto = new ResponseDto();
+        errors.stream().map(ErrorDto::getDescription).forEach(logger::info);
+        dto.setStatus("Error");
+        dto.setData(data);
+        dto.setRevision(catalogService.getRevision());
+        dto.setErrors(errors);
+        return dto;
+    }
+
+    @GetMapping(path = "get_categories")
+    public ResponseEntity getCategories(@RequestParam(required = false) @Nullable String deviceId) {
+        final ObjectMapper toJsonObjectMapper = new ObjectMapper();
+        var categories = catalogService.getCategories();
+        if (categories != null && !categories.isEmpty()) {
+            CategoryResponseDto dto = new CategoryResponseDto();
+            CategoryDataDto dataDto = new CategoryDataDto();
+            dataDto.setItems(categories);
+            dto.setData(dataDto);
+            dto.setErrors(new ArrayList<>());
+            dto.setStatus(OK_STATUS);
+            dto.setRevision(catalogService.getRevision());
+            return ResponseEntity
+                    .ok()
+                    .body(toJsonObjectMapper.convertValue(dto, CategoryResponseDto.class));
+        } else {
+            return ResponseEntity
+                    .noContent()
+                    .build();
+        }
     }
 }
