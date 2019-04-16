@@ -49,16 +49,13 @@ public class CatalogRepository {
     }
 
     public void refreshCategories() {
-//        exec.execute(() -> {
             // TODO: 4/8/2019 persist categories
             var lastKey = provideCategoriesLastKey();
             dbItemDao.findAll().stream()
                     .map(DbItem::getCategory)
                     //fixme беда с категориями
                     .distinct()
-//                    .peek(logger::info)
                     .filter(o -> !categories.values().contains(o))
-//                    .peek(logger::info)
                     .forEach(o -> categories.put(lastKey + 1, o));
             logger.info("Categories updated\n Result:");
             categories.values().forEach(logger::info);
@@ -90,6 +87,7 @@ public class CatalogRepository {
                                             .map(Map.Entry::getKey)
                                             .findFirst()
                                             .orElseGet(() -> {
+                                                logger.info("New category found: " + categoryDto.getPagetitle());
                                                 var newKey = provideCategoriesLastKey() + 1;
                                                 categories.put(newKey, categoryDto.getPagetitle());
                                                 return newKey;
