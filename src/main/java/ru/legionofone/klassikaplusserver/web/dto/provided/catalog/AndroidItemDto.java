@@ -22,7 +22,9 @@ import com.fasterxml.jackson.annotation.*;
         "discount",
         "discountable",
         "price",
-        "photos"
+        "photos",
+        "category",
+        "categoryId"
 })
 @JsonRootName(value = "item")
 public class AndroidItemDto implements Serializable {
@@ -54,7 +56,9 @@ public class AndroidItemDto implements Serializable {
     @JsonProperty("price")
     private double price;
     @JsonProperty("category")
-    private Integer category;
+    private String category;
+    @JsonProperty("categoryId")
+    private Integer categoryId;
     @JsonProperty("photos")
     private List<PhotoDto> photos = null;
     @JsonIgnore
@@ -212,12 +216,22 @@ public class AndroidItemDto implements Serializable {
     }
 
     @JsonProperty("category")
-    public Integer getCategory() {
+    public String getCategory() {
         return category;
     }
 
     @JsonProperty("category")
-    public void setCategory(Integer category) {
+    public void setCategory(String category) {
         this.category = category;
+    }
+
+    @JsonProperty("categoryId")
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    @JsonProperty("categoryId")
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }

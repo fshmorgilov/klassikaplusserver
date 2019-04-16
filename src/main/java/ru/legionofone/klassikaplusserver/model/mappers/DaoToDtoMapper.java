@@ -22,12 +22,7 @@ public class DaoToDtoMapper extends Mapping<DbItem, AndroidItemDto> {
         dto.setBasePrice(dbItem.getBasePrice());
         dto.setPrice(dbItem.getPrice());
         dto.setCategory(dbItem.getCategory());
-        // TODO: 1/29/2019
-//        dto.setPhotos();
-//        dto.setDiscount(dbItem.getDiscount());
-//        dto.setDiscountable();
-//        dto.setMainPhoto
-//        dto.setManufacturer();
+        dto.setCategoryId(dbItem.getCategoryId());
         return dto;
     }
 }

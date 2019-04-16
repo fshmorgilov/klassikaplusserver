@@ -27,8 +27,10 @@ public class DbItem extends DbEntity implements Serializable {
     private String descriptionLong;
     @Column(name = "page_alias")
     private String pageAlias;
+    @Column(name = "categoryId")
+    private Integer categoryId;
     @Column(name = "category")
-    private Integer category;
+    private String category;
 
     @Column(name = "icon")
     private String icon;
@@ -250,11 +252,19 @@ public class DbItem extends DbEntity implements Serializable {
         return "items";
     }
 
-    public Integer getCategory() {
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer category) {
+        this.categoryId = category;
+    }
+
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Integer category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }
