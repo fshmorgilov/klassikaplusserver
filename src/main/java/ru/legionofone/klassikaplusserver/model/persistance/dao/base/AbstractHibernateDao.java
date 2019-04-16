@@ -46,7 +46,7 @@ public abstract class AbstractHibernateDao<T extends DbEntity> {
     @Transactional
     public T findOne(long id) {
         logger.info("Getting entity " + clazz.getName() + "\n id: " + id);
-        return (T) getCurrentSession().get(clazz, id);
+        return getCurrentSession().get(clazz, id);
     }
 
     @Transactional

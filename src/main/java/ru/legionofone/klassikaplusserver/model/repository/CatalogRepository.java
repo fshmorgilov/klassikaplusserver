@@ -49,11 +49,9 @@ public class CatalogRepository {
     }
 
     public void refreshCategories() {
-            // TODO: 4/8/2019 persist categories
             var lastKey = provideCategoriesLastKey();
             dbItemDao.findAll().stream()
                     .map(DbItem::getCategory)
-                    //fixme беда с категориями
                     .distinct()
                     .filter(o -> !categories.values().contains(o))
                     .forEach(o -> categories.put(lastKey + 1, o));
